@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "lib",
+    "strict": true,
+    "lib": ["esnext"],
+    "target": "esnext"
+  },
+  "exclude": ["transformer"],
+  "tstl": {
+    "luaTarget": "5.1",
+    "luaLibImport": "inline"
+  }
+}

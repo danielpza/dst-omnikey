@@ -1,0 +1,20 @@
+{
+  "name": "dsmods",
+  "version": "0.1.0",
+  "files": [
+    "*.lua"
+  ],
+  "scripts": {
+    "release": "standard-version",
+    "prepare": "tstl -p tsconfig.json && node set-version.js"
+  },
+  "keywords": [],
+  "author": "Daniel Perez Alvarez <danielpza@protonmail.com> (https://github.com/danielpza)",
+  "license": "MIT",
+  "description": "",
+  "devDependencies": {
+    "standard-version": "^6.0.1",
+    "typescript": "^3.5.3",
+    "typescript-to-lua": "^0.24.0"
+  }
+}
