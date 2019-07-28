@@ -3,7 +3,9 @@ type Slot = "head" | "body" | "hands";
 
 type List<T> = Record<any, T> | T[];
 
-type ComponentBundle<T extends keyof Component> = { [K in T]: Component[K] } &
+type ComponentBundle<T extends keyof Component = never> = {
+  [K in T]: Component[K];
+} &
   { [K in Exclude<keyof Component, T>]?: Component[K] };
 declare namespace Component {
   interface Edible {
@@ -16,6 +18,7 @@ declare namespace Component {
   interface Armor {
     condition: number;
     absorb_percent: number;
+    maxcondition: number;
   }
   interface Finiteuses {
     current: number;
@@ -23,7 +26,7 @@ declare namespace Component {
     consumption: { [K in string]: number };
   }
   interface Tool {
-    CanDoAction(action: any): boolean;
+    actions: Record<any, any>;
   }
   interface Weapon {
     damage: number;
@@ -111,6 +114,7 @@ declare namespace GLOBAL {
   };
   function IsPaused(): boolean;
   function require(mod: string): void;
+  function unpack(...args: any[]): any;
   function SpawnPrefab(prefab: string): Prefab;
   enum ACTIONS {
     CHOP,
@@ -130,7 +134,7 @@ declare namespace GLOBAL {
     ROUGHAGE
   }
 }
-declare let print: (data: string) => void;
+declare function print(data: any): void;
 declare let GetModConfigData: (key: string) => any;
 declare let AddPlayerPostInit: (cb: (inst: Player) => void) => void;
 declare function AddComponentPostInit<T extends keyof Component>(
