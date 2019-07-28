@@ -186,7 +186,8 @@ function valueByEdible(item: PrefabLike) {
     !item.components.edible ||
     item.components.edible.healthvalue < -5 ||
     item.components.edible.foodtype === GLOBAL.FOODTYPE.ELEMENTAL ||
-    item.components.edible.foodtype === GLOBAL.FOODTYPE.ROUGHAGE
+    item.components.edible.foodtype === GLOBAL.FOODTYPE.ROUGHAGE ||
+    item.components.edible.hungervalue <= 0
   )
     return 0;
   return (
