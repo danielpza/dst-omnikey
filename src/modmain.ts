@@ -198,7 +198,13 @@ function valueByEdible(item: PrefabLike) {
 }
 
 function valueByHeal(item: PrefabLike) {
-  return (item.components.healer && item.components.healer.health) || 0;
+  return (
+    (item.components.healer && item.components.healer.health) ||
+    (item.components.edible &&
+      item.components.edible.healthvalue >= 10 &&
+      item.components.edible.healthvalue) ||
+    0
+  );
 }
 
 function canBeEquipped(item: PrefabLike, slot: any) {
