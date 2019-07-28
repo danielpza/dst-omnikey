@@ -2,7 +2,7 @@
 var name = "OmniKey";
 var version = "$VERSION";
 var description =
-  "Add keybindings to use with tools, weapons and armor. Works with any mod";
+  "Add keybindings to use with tools, weapons and armor.";
 var author = "Daniel Perez Alvarez";
 
 var api_version = 10;
