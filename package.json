@@ -6,7 +6,10 @@
   ],
   "scripts": {
     "release": "standard-version",
-    "prepare": "tstl -p tsconfig.json && node set-version.js"
+    "prepare": "npm run build",
+    "prebuild": "rm -rf lib",
+    "build": "tstl -p tsconfig.json && node set-version.js",
+    "pack": "npm run build && zip -rXj OmniKey.zip lib/*"
   },
   "keywords": [],
   "author": "Daniel Perez Alvarez <danielpza@protonmail.com> (https://github.com/danielpza)",
