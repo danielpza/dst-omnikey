@@ -133,7 +133,8 @@ function valueByEdible(item: Prefab) {
   if (
     !item.components.edible ||
     item.components.edible.healthvalue < -5 ||
-    item.components.edible.foodtype === GLOBAL.FOODTYPE.ELEMENTAL
+    item.components.edible.foodtype === GLOBAL.FOODTYPE.ELEMENTAL ||
+    item.components.edible.foodtype === GLOBAL.FOODTYPE.ROUGHAGE
   )
     return 0;
   return (

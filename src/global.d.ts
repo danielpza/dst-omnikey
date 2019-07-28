@@ -122,7 +122,8 @@ declare namespace GLOBAL {
     VEGGIE,
     HORRIBLE,
     RAW,
-    ELEMENTAL
+    ELEMENTAL,
+    ROUGHAGE
   }
 }
 declare let print: (data: string) => void;
