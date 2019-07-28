@@ -94,22 +94,37 @@ declare namespace Module {
   class Button extends Widget {}
 }
 
-declare let GLOBAL: {
-  TheWorld: {
+declare namespace GLOBAL {
+  const TheWorld: {
     ismastersim: any;
   };
-  ThePlayer: Player;
-  TheFrontEnd: {
+  const ThePlayer: Player;
+  const TheFrontEnd: {
     GetActiveScreen: () => any;
   };
-  TheInput: {
+  const TheInput: {
     AddKeyUpHandler: (keycode: number, cb: () => void) => any;
   };
-  IsPaused: (this: void) => boolean;
-  ACTIONS: Record<"CHOP" | "MINE" | "DIG", any>;
-  EQUIPSLOTS: Record<"HEAD" | "BODY", any>;
-  FOODTYPE: Record<"MEAT" | "VEGGIE" | "HORRIBLE" | "RAW" | "ELEMENTAL", any>;
-};
+  function IsPaused(): boolean;
+  function require(mod: string): void;
+  function SpawnPrefab(prefab: string): Prefab;
+  enum ACTIONS {
+    CHOP,
+    MINE,
+    DIG
+  }
+  enum EQUIPSLOTS {
+    HEAD,
+    BODY
+  }
+  enum FOODTYPE {
+    MEAT,
+    VEGGIE,
+    HORRIBLE,
+    RAW,
+    ELEMENTAL
+  }
+}
 declare let print: (data: string) => void;
 declare let GetModConfigData: (key: string) => any;
 declare let AddPlayerPostInit: (cb: (inst: Player) => void) => void;

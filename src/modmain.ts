@@ -69,11 +69,23 @@ function main() {
         );
         if (item)
           if (equippedItem === item && cane)
-            GLOBAL.ThePlayer.components.inventory.UseItemFromInvTile(cane);
-          else GLOBAL.ThePlayer.components.inventory.UseItemFromInvTile(item);
+            GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(cane);
+          else GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(item);
       }
     });
   }
+}
+
+const prefabCache: Record<string, Prefab> = {};
+
+function getPrefabCopy(prefab: string) {
+  if (prefabCache[prefab] === undefined) {
+    const isMasterSim = GLOBAL.TheWorld.ismastersim;
+    GLOBAL.TheWorld.ismastersim = true;
+    prefabCache[prefab] = GLOBAL.SpawnPrefab(prefab);
+    GLOBAL.TheWorld.ismastersim = isMasterSim;
+  }
+  return prefabCache[prefab];
 }
 
 function getBestItem(getValue: (item: Prefab) => number): Prefab | undefined {
@@ -101,11 +113,13 @@ function getBestItemInList(
   getValue: (item: Prefab) => number
 ): Prefab | undefined {
   let best: Prefab | undefined = undefined;
+  let bestValue = 0;
   for (const item of Object.values(items)) {
     if (item !== undefined) {
-      const value = getValue(item);
-      if (value > 0 && (best === undefined || value > getValue(best))) {
+      const value = getValue(getPrefabCopy(item.prefab));
+      if (value > 0 && value > bestValue) {
         best = item;
+        bestValue = value;
       }
     }
   }
