@@ -40,7 +40,10 @@ declare namespace Component {
     GetEquips: () => List<Prefab | undefined>;
     GetItems: () => List<Prefab | undefined>;
     GetActiveItem: () => Prefab | undefined;
-    GetOverflowContainer: () => Prefab | undefined;
+    GetOverflowContainer: () => { inst: Prefab } | undefined;
+  }
+  interface Container {
+    GetItems: () => List<Prefab | undefined>;
   }
 }
 interface Component {
@@ -52,6 +55,7 @@ interface Component {
   equippable: Component.Equippable;
   healer: Component.Healer;
   inventory: Component.Inventory;
+  container: Component.Container;
 }
 
 interface PrefabBase {

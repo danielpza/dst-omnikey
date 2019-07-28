@@ -97,11 +97,18 @@ function getBestItem(getValue: (item: Prefab) => number): Prefab | undefined {
     GLOBAL.ThePlayer.replica.inventory.GetEquippedItem("hands"),
     GLOBAL.ThePlayer.replica.inventory.GetEquippedItem("head")
   ] as List<Prefab>;
+  const backpack = GLOBAL.ThePlayer.replica.inventory.GetOverflowContainer();
+  const backpackItems =
+    (backpack &&
+      backpack.inst.replica.container &&
+      backpack.inst.replica.container.GetItems()) ||
+    [];
   return getBestItemInList(
     [
       getBestItemInList(equippedItems, getValue),
       getBestItemInList(items, getValue),
       getBestItemInList(equips, getValue),
+      getBestItemInList(backpackItems, getValue),
       activeItem
     ],
     getValue
