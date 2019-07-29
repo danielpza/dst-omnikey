@@ -169,8 +169,15 @@ function getBestItemInList(
   for (const item of Object.values(items)) {
     if (item !== undefined) {
       const copy = getCopy(getPrefabCopy(item.prefab));
-      if (copy.components.finiteuses && item.replica.inventoryitem && item.replica.inventoryitem.classified.percentused)
-        copy.components.finiteuses.current = item.replica.inventoryitem.classified.percentused.value() * copy.components.finiteuses.total / 100;
+      if (
+        copy.components.finiteuses &&
+        item.replica.inventoryitem &&
+        item.replica.inventoryitem.classified.percentused
+      )
+        copy.components.finiteuses.current =
+          (item.replica.inventoryitem.classified.percentused.value() *
+            copy.components.finiteuses.total) /
+          100;
       const value = getValue(copy);
       if (value > 0 && value > bestValue) {
         best = item;
