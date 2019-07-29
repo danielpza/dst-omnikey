@@ -67,10 +67,11 @@ function main() {
         const equippedItem = GLOBAL.ThePlayer.replica.inventory.GetEquippedItem(
           "hands"
         );
-        if (item)
+        if (item) {
           if (equippedItem === item && cane)
             GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(cane);
           else GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(item);
+        }
       }
     });
   }
@@ -107,6 +108,10 @@ function getPrefabCopy(prefab: string) {
     if (copy.components.healer) {
       const { health } = copy.components.healer;
       cache.components.healer = { health };
+    }
+    if (copy.components.equippable) {
+      const { equipslot } = copy.components.equippable;
+      cache.components.equippable = { equipslot };
     }
     if (copy.components.edible) {
       const {
