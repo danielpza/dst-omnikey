@@ -61,6 +61,16 @@ interface Component {
   container: Component.Container;
 }
 
+interface ReplicaBase {
+  inventoryitem?: {
+    classified: {
+      percentused?: {
+        value(): number;
+      };
+    };
+  };
+}
+
 interface PrefabBase {
   prefab: string;
   DoTaskInTime: (time: number, fn: (this: void) => void) => void;
@@ -74,7 +84,7 @@ interface PrefabBase {
 
 interface Prefab<T extends keyof Component = never> extends PrefabBase {
   components: ComponentBundle<T>;
-  replica: ComponentBundle<T>;
+  replica: ComponentBundle<T> & ReplicaBase;
 }
 
 interface Player extends Prefab<"inventory"> {}
