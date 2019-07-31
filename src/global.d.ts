@@ -37,6 +37,9 @@ declare namespace Component {
   interface Healer {
     health: number;
   }
+  interface Eater {
+    caneat: any[];
+  }
   interface Inventory {
     GetEquippedItem: (slot: Slot) => Prefab | undefined;
     UseItemFromInvTile: (item: Prefab) => any;
@@ -57,6 +60,7 @@ interface Component {
   weapon: Component.Weapon;
   equippable: Component.Equippable;
   healer: Component.Healer;
+  eater: Component.Eater;
   inventory: Component.Inventory;
   container: Component.Container;
 }
@@ -80,6 +84,7 @@ interface PrefabBase {
     fn: (this: void, inst: any, data: any) => void
   ) => void;
   Remove(): void;
+  HasTag(tag: string): boolean;
 }
 
 interface Prefab<T extends keyof Component = never> extends PrefabBase {
@@ -129,6 +134,7 @@ declare namespace GLOBAL {
   enum ACTIONS {
     CHOP,
     MINE,
+    PICK,
     DIG
   }
   enum EQUIPSLOTS {

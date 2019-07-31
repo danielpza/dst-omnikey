@@ -28,6 +28,7 @@ var configuration_options = [
   Keybind("AXE", "1", "Axe Key"),
   Keybind("PICKAXE", "2", "Pickaxe Key"),
   Keybind("SHOVEL", "3", "Shovel Key"),
+  Keybind("SCYTHE", "4", "Scythe Key"),
   Keybind("ARMOR", "c", "Armor"),
   Keybind("HELMET", "v", "Helmet")
 ];

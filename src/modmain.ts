@@ -3,39 +3,43 @@
 const configData = [
   {
     key: GetModConfigData("WEAPON"),
-    getValue: (item: PrefabLike) => valueByDamage(item)
+    getValue: (item: PrefabCopy) => valueByDamage(item)
   },
   {
     key: GetModConfigData("HEAL"),
-    getValue: (item: PrefabLike) => valueByHeal(item)
+    getValue: (item: PrefabCopy) => valueByHeal(item)
   },
   {
     key: GetModConfigData("EAT"),
-    getValue: (item: PrefabLike) => valueByEdible(item)
+    getValue: (item: PrefabCopy) => valueByEdible(item)
   },
   {
     key: GetModConfigData("AXE"),
-    getValue: (item: PrefabLike) => toolValue(item, GLOBAL.ACTIONS.CHOP)
+    getValue: (item: PrefabCopy) => toolValue(item, GLOBAL.ACTIONS.CHOP)
   },
   {
     key: GetModConfigData("PICKAXE"),
-    getValue: (item: PrefabLike) => toolValue(item, GLOBAL.ACTIONS.MINE)
+    getValue: (item: PrefabCopy) => toolValue(item, GLOBAL.ACTIONS.MINE)
   },
   {
     key: GetModConfigData("SHOVEL"),
-    getValue: (item: PrefabLike) => toolValue(item, GLOBAL.ACTIONS.DIG)
+    getValue: (item: PrefabCopy) => toolValue(item, GLOBAL.ACTIONS.DIG)
+  },
+  {
+    key: GetModConfigData("SCYTHE"),
+    getValue: (item: PrefabCopy) => scytheToolValue(item)
   },
   {
     key: GetModConfigData("ARMOR"),
-    getValue: (item: PrefabLike) => armorValue(item, GLOBAL.EQUIPSLOTS.BODY)
+    getValue: (item: PrefabCopy) => armorValue(item, GLOBAL.EQUIPSLOTS.BODY)
   },
   {
     key: GetModConfigData("HELMET"),
-    getValue: (item: PrefabLike) => armorValue(item, GLOBAL.EQUIPSLOTS.HEAD)
+    getValue: (item: PrefabCopy) => armorValue(item, GLOBAL.EQUIPSLOTS.HEAD)
   },
   {
     key: GetModConfigData("LIGHT"),
-    getValue: (item: PrefabLike) => {
+    getValue: (item: PrefabCopy) => {
       const index = [
         "gears_hat_goggles",
         "molehat",
@@ -63,7 +67,7 @@ function main() {
         GLOBAL.TheFrontEnd.GetActiveScreen().name === "HUD"
       ) {
         const item = getBestItem(data.getValue);
-        const cane = getBestItem((item: PrefabLike) => hasPrefab(item, "cane"));
+        const cane = getBestItem((item: PrefabCopy) => hasPrefab(item, "cane"));
         const equippedItem = GLOBAL.ThePlayer.replica.inventory.GetEquippedItem(
           "hands"
         );
@@ -76,19 +80,24 @@ function main() {
     });
   }
 }
-interface PrefabLike {
+
+interface PrefabCopy {
+  original: Prefab;
   prefab: string;
   components: ComponentBundle;
 }
 
-const prefabCache: Record<string, PrefabLike> = {};
+const prefabCache: Record<
+  string,
+  { prefab: string; components: ComponentBundle }
+> = {};
 
 function getPrefabCopy(prefab: string) {
   if (prefabCache[prefab] === undefined) {
     const isMasterSim = GLOBAL.TheWorld.ismastersim;
     GLOBAL.TheWorld.ismastersim = true;
     const copy = GLOBAL.SpawnPrefab(prefab);
-    const cache = { prefab, components: {} } as PrefabLike;
+    const cache = { prefab, components: {} } as PrefabCopy;
     if (copy.components.finiteuses) {
       const { current, total, consumption } = copy.components.finiteuses;
       cache.components.finiteuses = { current, total, consumption };
@@ -137,7 +146,7 @@ function getPrefabCopy(prefab: string) {
 }
 
 function getBestItem(
-  getValue: (item: PrefabLike) => number
+  getValue: (item: PrefabCopy) => number
 ): Prefab | undefined {
   const items = GLOBAL.ThePlayer.replica.inventory.GetItems();
   const equips = GLOBAL.ThePlayer.replica.inventory.GetEquips();
@@ -167,13 +176,14 @@ function getBestItem(
 
 function getBestItemInList(
   items: List<Prefab | undefined>,
-  getValue: (item: PrefabLike) => number
+  getValue: (item: PrefabCopy) => number
 ): Prefab | undefined {
   let best: Prefab | undefined = undefined;
   let bestValue = 0;
   for (const item of Object.values(items)) {
     if (item !== undefined) {
-      const copy = getCopy(getPrefabCopy(item.prefab));
+      const copy = getCopy(getPrefabCopy(item.prefab)) as PrefabCopy;
+      copy.original = item;
       if (
         copy.components.finiteuses &&
         item.replica.inventoryitem &&
@@ -205,7 +215,7 @@ function getCopy<T>(obj: T): T {
 main();
 
 // prefabs helpers
-function valueByEdible(item: PrefabLike) {
+function valueByEdible(item: PrefabCopy) {
   if (
     !item.components.edible ||
     item.components.edible.healthvalue < -5 ||
@@ -221,7 +231,7 @@ function valueByEdible(item: PrefabLike) {
   );
 }
 
-function valueByHeal(item: PrefabLike) {
+function valueByHeal(item: PrefabCopy) {
   return (
     (item.components.healer && item.components.healer.health) ||
     (item.components.edible &&
@@ -231,13 +241,13 @@ function valueByHeal(item: PrefabLike) {
   );
 }
 
-function canBeEquipped(item: PrefabLike, slot: any) {
+function canBeEquipped(item: PrefabCopy, slot: any) {
   return (
     item.components.equippable && item.components.equippable.equipslot === slot
   );
 }
 
-function valueByDamage(item: PrefabLike) {
+function valueByDamage(item: PrefabCopy) {
   return (
     (item.components.weapon &&
       item.components.weapon.damage * 100 + valueByUsage(item)) ||
@@ -245,7 +255,7 @@ function valueByDamage(item: PrefabLike) {
   );
 }
 
-function valueByUsage(item: PrefabLike): number {
+function valueByUsage(item: PrefabCopy): number {
   return (
     (item.components.finiteuses !== undefined &&
       item.components.finiteuses.total * 10 -
@@ -254,7 +264,7 @@ function valueByUsage(item: PrefabLike): number {
   );
 }
 
-function valueByConsumption(item: PrefabLike, action: any): number {
+function valueByConsumption(item: PrefabCopy, action: any): number {
   return (
     (item.components.finiteuses !== undefined &&
       1 / item.components.finiteuses.consumption[action]) ||
@@ -262,7 +272,7 @@ function valueByConsumption(item: PrefabLike, action: any): number {
   );
 }
 
-function valueByArmor(item: PrefabLike) {
+function valueByArmor(item: PrefabCopy) {
   return (
     (item.components.armor &&
       item.components.armor.absorb_percent * 100000 -
@@ -271,11 +281,11 @@ function valueByArmor(item: PrefabLike) {
   );
 }
 
-function armorValue(item: PrefabLike, slot: any) {
+function armorValue(item: PrefabCopy, slot: any) {
   return (canBeEquipped(item, slot) && valueByArmor(item)) || 0;
 }
 
-function toolValue(item: PrefabLike, action: any) {
+function toolValue(item: PrefabCopy, action: any) {
   return (
     (item.components.tool !== undefined &&
       item.components.tool.actions[action] &&
@@ -284,6 +294,15 @@ function toolValue(item: PrefabLike, action: any) {
   );
 }
 
-function hasPrefab(item: PrefabLike, prefab: string) {
+function scytheToolValue(item: PrefabCopy) {
+  return (
+    (item.original.HasTag("mower") &&
+      valueByConsumption(item, GLOBAL.ACTIONS.PICK) * 1000 +
+        valueByUsage(item)) ||
+    0
+  );
+}
+
+function hasPrefab(item: PrefabCopy, prefab: string) {
   return item.prefab === prefab ? 1 : 0;
 }

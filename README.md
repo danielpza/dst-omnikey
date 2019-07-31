@@ -6,16 +6,17 @@ A Don't Starve Together Mod. Add keybindings to use with tools, weapons, armor a
 
 Keybindings can be changed in the configuration:
 
-| Default Key |                    Function |
-| :---------- | --------------------------: |
-| G           | Equip best weapon by damage |
-| C           |            Equip best armor |
-| V           |           Equip best helmet |
-| 1           |              Equip best axe |
-| 2           |          Equip best pickaxe |
-| 3           |           Equip best shovel |
-| H           |       Use best healing item |
-| J           |                    Eat food |
+| Default Key |                                Function |
+| :---------- | --------------------------------------: |
+| G           |             Equip best weapon by damage |
+| C           |                        Equip best armor |
+| V           |                       Equip best helmet |
+| 1           |                          Equip best axe |
+| 2           |                      Equip best pickaxe |
+| 3           |                       Equip best shovel |
+| 4           | Equip best scythe, requires scythes mod |
+| H           |                   Use best healing item |
+| J           |                                Eat food |
 
 Also when unequiping the hand slot using the keybindings it automatically equips a cane if available
 
