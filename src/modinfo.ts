@@ -2,7 +2,7 @@
 var name = "OmniKey";
 var version = "$VERSION";
 var description =
-  "Add keybindings to use with tools, weapons and armor.";
+  "Add keybindings to use with tools, weapons and armor. https://github.com/danielpza/dst-omnikey";
 var author = "Daniel Perez Alvarez";
 
 var api_version = 10;
