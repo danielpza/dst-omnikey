@@ -1,20 +1,35 @@
 {
   "name": "dsmods",
   "version": "0.4.0",
+  "description": "A Don't Starve Together Mod. Add keybindings to use with tools, weapons, armor and much more.",
+  "keywords": [],
+  "homepage": "https://github.com/danielpza/dst-omnikey#readme",
+  "bugs": {
+    "url": "https://github.com/danielpza/dst-omnikey/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielpza/dst-omnikey.git"
+  },
+  "license": "MIT",
+  "author": "Daniel Perez Alvarez <danielpza@protonmail.com> (https://github.com/danielpza)",
   "files": [
     "*.lua"
   ],
+  "main": "set-version.js",
+  "directories": {
+    "lib": "lib"
+  },
   "scripts": {
-    "release": "standard-version",
-    "prepare": "npm run build",
     "prebuild": "rm -rf lib",
     "build": "tstl -p tsconfig.json && node set-version.js",
-    "pack": "npm run build && zip -rXj OmniKey.zip lib/*"
+    "pack": "npm run build && zip -rXj OmniKey.zip lib/*",
+    "prepare": "npm run build",
+    "release": "standard-version"
   },
-  "keywords": [],
-  "author": "Daniel Perez Alvarez <danielpza@protonmail.com> (https://github.com/danielpza)",
-  "license": "MIT",
-  "description": "",
+  "dependencies": {
+    "ts-types-utils": "^1.5.0"
+  },
   "devDependencies": {
     "standard-version": "^6.0.1",
     "typescript": "^3.5.3",
