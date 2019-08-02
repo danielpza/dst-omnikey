@@ -67,7 +67,7 @@ function main() {
         GLOBAL.TheFrontEnd.GetActiveScreen().name === "HUD"
       ) {
         const item = getBestItem(data.getValue);
-        const cane = getBestItem((item: PrefabCopy) => hasPrefab(item, "cane"));
+        const cane = getBestItem(caneValue);
         const equippedItem = GLOBAL.ThePlayer.replica.inventory.GetEquippedItem(
           "hands"
         );
@@ -119,8 +119,8 @@ function getPrefabCopy(prefab: string) {
       cache.components.healer = { health };
     }
     if (copy.components.equippable) {
-      const { equipslot } = copy.components.equippable;
-      cache.components.equippable = { equipslot };
+      const { equipslot, walkspeedmult } = copy.components.equippable;
+      cache.components.equippable = { equipslot, walkspeedmult };
     }
     if (copy.components.edible) {
       const {
@@ -305,4 +305,14 @@ function scytheToolValue(item: PrefabCopy) {
 
 function hasPrefab(item: PrefabCopy, prefab: string) {
   return item.prefab === prefab ? 1 : 0;
+}
+
+function caneValue(item: PrefabCopy) {
+  return (
+    (item.components.equippable &&
+      item.components.equippable.walkspeedmult &&
+      item.components.equippable.walkspeedmult > 1 &&
+      item.components.equippable.walkspeedmult) ||
+    0
+  );
 }

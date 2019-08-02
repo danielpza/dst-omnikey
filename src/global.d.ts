@@ -33,6 +33,7 @@ declare namespace Component {
   }
   interface Equippable {
     equipslot: any;
+    walkspeedmult?: number;
   }
   interface Healer {
     health: number;
