@@ -14,7 +14,8 @@ Keybindings can be changed in the configuration:
 | 1           |                          Equip best axe |
 | 2           |                      Equip best pickaxe |
 | 3           |                       Equip best shovel |
-| 4           | Equip best scythe, requires scythes mod |
+| 4           |                     Equip (best) hammer |
+| 5           | Equip best scythe, requires scythes mod |
 | H           |                   Use best healing item |
 | J           |                                Eat food |
 

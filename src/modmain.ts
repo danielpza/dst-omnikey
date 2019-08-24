@@ -26,6 +26,10 @@ const configData = [
     getValue: (item: PrefabCopy) => toolValue(item, GLOBAL.ACTIONS.DIG)
   },
   {
+    key: GetModConfigData("HAMMER"),
+    getValue: (item: PrefabCopy) => toolValue(item, GLOBAL.ACTIONS.HAMMER)
+  },
+  {
     key: GetModConfigData("SCYTHE"),
     getValue: (item: PrefabCopy) => scytheToolValue(item)
   },

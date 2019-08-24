@@ -132,10 +132,13 @@ declare namespace GLOBAL {
   function require(mod: string): void;
   function unpack(...args: any[]): any;
   function SpawnPrefab(prefab: string): Prefab;
+  function printwrap(msg: string, obj: any): void;
+
   enum ACTIONS {
     CHOP,
     MINE,
     PICK,
+    HAMMER,
     DIG
   }
   enum EQUIPSLOTS {
