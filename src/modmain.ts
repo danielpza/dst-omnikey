@@ -3,15 +3,15 @@
 const configData = [
   {
     key: GetModConfigData("WEAPON"),
-    getValue: (item: PrefabCopy) => valueByDamage(item)
+    getValue: valueByDamage
   },
   {
     key: GetModConfigData("HEAL"),
-    getValue: (item: PrefabCopy) => valueByHeal(item)
+    getValue: valueByHeal
   },
   {
     key: GetModConfigData("EAT"),
-    getValue: (item: PrefabCopy) => valueByEdible(item)
+    getValue: valueByEdible
   },
   {
     key: GetModConfigData("AXE"),
@@ -31,7 +31,7 @@ const configData = [
   },
   {
     key: GetModConfigData("SCYTHE"),
-    getValue: (item: PrefabCopy) => scytheToolValue(item)
+    getValue: scytheToolValue
   },
   {
     key: GetModConfigData("ARMOR"),
