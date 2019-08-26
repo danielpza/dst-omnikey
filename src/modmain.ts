@@ -85,66 +85,52 @@ function main() {
   }
 }
 
-interface PrefabCopy {
-  original: Prefab;
-  prefab: string;
-  components: ComponentBundle;
+function copyPrefab(prefab: string) {
+  const isMasterSim = GLOBAL.TheWorld.ismastersim;
+  GLOBAL.TheWorld.ismastersim = true;
+  const copy = GLOBAL.SpawnPrefab(prefab);
+  const cache = {
+    prefab,
+    components: {
+      finiteuses: pick(copy.components.finiteuses, [
+        "current",
+        "total",
+        "consumption"
+      ]),
+      tool: pick(copy.components.tool, ["actions"]),
+      weapon: pick(copy.components.weapon, ["damage"]),
+      armor: pick(copy.components.armor, [
+        "absorb_percent",
+        "condition",
+        "maxcondition"
+      ]),
+      healer: pick(copy.components.healer, ["health"]),
+      equippable: pick(copy.components.equippable, [
+        "equipslot",
+        "walkspeedmult"
+      ]),
+      edible: pick(copy.components.edible, [
+        "healthvalue",
+        "hungervalue",
+        "sanityvalue",
+        "foodtype"
+      ])
+    }
+  };
+  copy.Remove();
+  GLOBAL.TheWorld.ismastersim = isMasterSim;
+  return cache;
 }
 
-const prefabCache: Record<
-  string,
-  { prefab: string; components: ComponentBundle }
-> = {};
+interface PrefabCopy extends ReturnType<typeof copyPrefab> {
+  original: Prefab;
+}
+
+const prefabCache: Record<string, ReturnType<typeof copyPrefab>> = {};
 
 function getPrefabCopy(prefab: string) {
   if (prefabCache[prefab] === undefined) {
-    const isMasterSim = GLOBAL.TheWorld.ismastersim;
-    GLOBAL.TheWorld.ismastersim = true;
-    const copy = GLOBAL.SpawnPrefab(prefab);
-    const cache = { prefab, components: {} } as PrefabCopy;
-    if (copy.components.finiteuses) {
-      const { current, total, consumption } = copy.components.finiteuses;
-      cache.components.finiteuses = { current, total, consumption };
-    }
-    if (copy.components.tool) {
-      const { actions } = copy.components.tool;
-      cache.components.tool = { actions } as any;
-    }
-    if (copy.components.weapon) {
-      const { damage } = copy.components.weapon;
-      cache.components.weapon = { damage };
-    }
-    if (copy.components.armor) {
-      const { absorb_percent, condition, maxcondition } = copy.components.armor;
-      cache.components.armor = { absorb_percent, condition, maxcondition };
-    }
-    if (copy.components.healer) {
-      const { health } = copy.components.healer;
-      cache.components.healer = { health };
-    }
-    if (copy.components.equippable) {
-      const { equipslot, walkspeedmult } = copy.components.equippable;
-      cache.components.equippable = { equipslot, walkspeedmult };
-    }
-    if (copy.components.edible) {
-      const {
-        healthvalue,
-        hungervalue,
-        sanityvalue,
-        ismeat,
-        foodtype
-      } = copy.components.edible;
-      cache.components.edible = {
-        healthvalue,
-        hungervalue,
-        sanityvalue,
-        ismeat,
-        foodtype
-      };
-    }
-    copy.Remove();
-    GLOBAL.TheWorld.ismastersim = isMasterSim;
-    prefabCache[prefab] = cache;
+    prefabCache[prefab] = copyPrefab(prefab);
   }
   return prefabCache[prefab];
 }
@@ -159,7 +145,7 @@ function getBestItem(
     GLOBAL.ThePlayer.replica.inventory.GetEquippedItem("body"),
     GLOBAL.ThePlayer.replica.inventory.GetEquippedItem("hands"),
     GLOBAL.ThePlayer.replica.inventory.GetEquippedItem("head")
-  ] as List<Prefab>;
+  ] as Record<number, Prefab>;
   const backpack = GLOBAL.ThePlayer.replica.inventory.GetOverflowContainer();
   const backpackItems =
     (backpack &&
@@ -179,7 +165,7 @@ function getBestItem(
 }
 
 function getBestItemInList(
-  items: List<Prefab | undefined>,
+  items: Record<number, Prefab | undefined>,
   getValue: (item: PrefabCopy) => number
 ): Prefab | undefined {
   let best: Prefab | undefined = undefined;
@@ -319,4 +305,16 @@ function caneValue(item: PrefabCopy) {
       item.components.equippable.walkspeedmult) ||
     0
   );
+}
+
+function pick<T, K extends keyof T>(
+  t: T | undefined,
+  ks: K[]
+): Pick<T, K> | undefined {
+  if (t === undefined) return undefined;
+  const result = {} as Pick<T, K>;
+  for (const k of ks) {
+    result[k] = t[k];
+  }
+  return result;
 }
