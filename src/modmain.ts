@@ -205,13 +205,9 @@ main();
 
 // prefabs helpers
 function valueByEdible(item: PrefabCopy) {
-  const player = getPrefabCopy(GLOBAL.ThePlayer.prefab);
   if (
-    !player.components.eater ||
+    !canEat(item) ||
     !item.components.edible ||
-    player.components.eater.preferseating.indexOf(
-      item.components.edible.foodtype
-    ) === -1 ||
     item.components.edible.healthvalue < -5 ||
     item.components.edible.hungervalue <= 0
   )
@@ -226,10 +222,22 @@ function valueByEdible(item: PrefabCopy) {
 function valueByHeal(item: PrefabCopy) {
   return (
     (item.components.healer && item.components.healer.health) ||
-    (item.components.edible &&
+    (canEat(item) &&
+      item.components.edible &&
       item.components.edible.healthvalue >= 10 &&
       item.components.edible.healthvalue) ||
     0
+  );
+}
+
+function canEat(item: PrefabCopy) {
+  const player = getPrefabCopy(GLOBAL.ThePlayer.prefab);
+  return (
+    item.components.edible &&
+    player.components.eater &&
+    player.components.eater.preferseating.indexOf(
+      item.components.edible.foodtype
+    ) !== -1
   );
 }
 
