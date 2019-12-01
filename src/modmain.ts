@@ -92,6 +92,7 @@ function copyPrefab(prefab: string) {
   const cache = {
     prefab,
     components: {
+      eater: pick(copy.components.eater, ["preferseating"]),
       finiteuses: pick(copy.components.finiteuses, [
         "current",
         "total",
@@ -204,11 +205,14 @@ main();
 
 // prefabs helpers
 function valueByEdible(item: PrefabCopy) {
+  const player = getPrefabCopy(GLOBAL.ThePlayer.prefab);
   if (
+    !player.components.eater ||
     !item.components.edible ||
+    player.components.eater.preferseating.indexOf(
+      item.components.edible.foodtype
+    ) === -1 ||
     item.components.edible.healthvalue < -5 ||
-    item.components.edible.foodtype === GLOBAL.FOODTYPE.ELEMENTAL ||
-    item.components.edible.foodtype === GLOBAL.FOODTYPE.ROUGHAGE ||
     item.components.edible.hungervalue <= 0
   )
     return 0;
