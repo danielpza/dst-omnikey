@@ -73,7 +73,7 @@ function main() {
         const item = getBestItem(data.getValue);
         const cane = getBestItem(caneValue);
         const equippedItem = GLOBAL.ThePlayer.replica.inventory.GetEquippedItem(
-          "hands"
+          GLOBAL.EQUIPSLOTS.HANDS
         );
         if (item) {
           if (equippedItem === item && cane)
@@ -135,17 +135,15 @@ function getPrefabCopy(prefab: string) {
   return prefabCache[prefab];
 }
 
-function getBestItem(
-  getValue: (item: PrefabCopy) => number
-): Prefab | undefined {
+function getBestItem(getValue: (item: PrefabCopy) => number) {
   const items = GLOBAL.ThePlayer.replica.inventory.GetItems();
   const equips = GLOBAL.ThePlayer.replica.inventory.GetEquips();
   const activeItem = GLOBAL.ThePlayer.replica.inventory.GetActiveItem();
   const equippedItems = [
-    GLOBAL.ThePlayer.replica.inventory.GetEquippedItem("body"),
-    GLOBAL.ThePlayer.replica.inventory.GetEquippedItem("hands"),
-    GLOBAL.ThePlayer.replica.inventory.GetEquippedItem("head")
-  ] as Record<number, Prefab>;
+    GLOBAL.ThePlayer.replica.inventory.GetEquippedItem(GLOBAL.EQUIPSLOTS.BODY),
+    GLOBAL.ThePlayer.replica.inventory.GetEquippedItem(GLOBAL.EQUIPSLOTS.HANDS),
+    GLOBAL.ThePlayer.replica.inventory.GetEquippedItem(GLOBAL.EQUIPSLOTS.HEAD)
+  ] as Record<number, Prefabs.Item | undefined>;
   const backpack = GLOBAL.ThePlayer.replica.inventory.GetOverflowContainer();
   const backpackItems =
     (backpack &&
@@ -154,20 +152,20 @@ function getBestItem(
     [];
   return getBestItemInList(
     [
-      getBestItemInList(equippedItems, getValue),
-      getBestItemInList(items, getValue),
-      getBestItemInList(equips, getValue),
-      getBestItemInList(backpackItems, getValue),
+      getBestItemInList(equippedItems as any, getValue) as any,
+      getBestItemInList(items as any, getValue) as any,
+      getBestItemInList(equips as any, getValue) as any,
+      getBestItemInList(backpackItems as any, getValue) as any,
       activeItem
     ],
     getValue
-  );
+  ) as any;
 }
 
 function getBestItemInList(
   items: Record<number, Prefab | undefined>,
   getValue: (item: PrefabCopy) => number
-): Prefab | undefined {
+): Prefab<never, "inventory"> | undefined {
   let best: Prefab | undefined = undefined;
   let bestValue = 0;
   for (const item of Object.values(items)) {
@@ -190,7 +188,7 @@ function getBestItemInList(
       }
     }
   }
-  return best;
+  return best as any;
 }
 
 function getCopy<T>(obj: T): T {
