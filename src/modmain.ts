@@ -71,18 +71,36 @@ function main() {
         GLOBAL.TheFrontEnd.GetActiveScreen().name === "HUD"
       ) {
         const item = getBestItem(data.getValue);
-        const cane = getBestItem(caneValue);
-        const equippedItem = GLOBAL.ThePlayer.replica.inventory.GetEquippedItem(
-          GLOBAL.EQUIPSLOTS.HANDS
-        );
         if (item) {
-          if (equippedItem === item && cane)
-            GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(cane);
-          else GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(item);
+          const copy = getPrefabCopy(item.prefab);
+          if (!copy.components.equippable) return;
+          if (copy.components.equippable.equipslot === GLOBAL.EQUIPSLOTS.HANDS)
+            equip(item, GLOBAL.EQUIPSLOTS.HANDS, () => getBestItem(caneValue));
+          else if (
+            copy.components.equippable.equipslot === GLOBAL.EQUIPSLOTS.HEAD
+          )
+            equip(item, GLOBAL.EQUIPSLOTS.HEAD, () =>
+              getBestItem(item => clothValue(item, GLOBAL.EQUIPSLOTS.HEAD))
+            );
+          else if (
+            copy.components.equippable.equipslot === GLOBAL.EQUIPSLOTS.BODY
+          )
+            equip(item, GLOBAL.EQUIPSLOTS.BODY, () =>
+              getBestItem(item => clothValue(item, GLOBAL.EQUIPSLOTS.BODY))
+            );
         }
       }
     });
   }
+}
+
+function equip(item: Prefabs.Item, slot: any, altFn: () => Prefabs.Item) {
+  const equipped = GLOBAL.ThePlayer.replica.inventory.GetEquippedItem(slot);
+  if (equipped === item) {
+    const alt = altFn();
+    if (alt) GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(alt);
+  }
+  GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(item);
 }
 
 function copyPrefab(prefab: string) {
@@ -92,6 +110,7 @@ function copyPrefab(prefab: string) {
   const cache = {
     prefab,
     components: {
+      insulator: pick(copy.components.insulator, ["insulation"]),
       eater: pick(copy.components.eater, ["preferseating"]),
       finiteuses: pick(copy.components.finiteuses, [
         "current",
@@ -136,7 +155,7 @@ function getPrefabCopy(prefab: string) {
   return prefabCache[prefab];
 }
 
-function getBestItem(getValue: (item: PrefabCopy) => number) {
+function getBestItem(getValue: (item: PrefabCopy) => number): Prefabs.Item {
   const items = GLOBAL.ThePlayer.replica.inventory.GetItems();
   const equips = GLOBAL.ThePlayer.replica.inventory.GetEquips();
   const activeItem = GLOBAL.ThePlayer.replica.inventory.GetActiveItem();
@@ -228,6 +247,15 @@ function valueByHeal(item: PrefabCopy) {
       item.components.edible.healthvalue) ||
     0
   );
+}
+
+function clothValue(item: PrefabCopy, slot: any) {
+  return (canBeEquipped(item, slot) && valueByInsulation(item)) || 0;
+}
+
+function valueByInsulation(item: PrefabCopy) {
+  if (!item.components.insulator) return 0;
+  return item.components.insulator.insulation;
 }
 
 function canEat(item: PrefabCopy) {
