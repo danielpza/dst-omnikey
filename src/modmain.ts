@@ -126,6 +126,7 @@ function copyPrefab(prefab: string) {
       ]),
       healer: pick(copy.components.healer, ["health"]),
       equippable: pick(copy.components.equippable, [
+        "dapperness",
         "equipslot",
         "walkspeedmult"
       ]),
@@ -250,12 +251,21 @@ function valueByHeal(item: PrefabCopy) {
 }
 
 function clothValue(item: PrefabCopy, slot: any) {
-  return (canBeEquipped(item, slot) && valueByInsulation(item)) || 0;
+  return (
+    (canBeEquipped(item, slot) &&
+      valueByInsulation(item) + valueByDapperness(item) / 10) ||
+    0
+  );
+}
+
+function valueByDapperness(item: PrefabCopy) {
+  if (!item.components.equippable) return 0;
+  return item.components.equippable.dapperness || 0;
 }
 
 function valueByInsulation(item: PrefabCopy) {
   if (!item.components.insulator) return 0;
-  return item.components.insulator.insulation;
+  return item.components.insulator.insulation || 0;
 }
 
 function canEat(item: PrefabCopy) {
@@ -310,7 +320,11 @@ function valueByArmor(item: PrefabCopy) {
 }
 
 function armorValue(item: PrefabCopy, slot: any) {
-  return (canBeEquipped(item, slot) && valueByArmor(item)) || 0;
+  return (
+    (canBeEquipped(item, slot) &&
+      valueByArmor(item) + clothValue(item, slot)) ||
+    0
+  );
 }
 
 function toolValue(item: PrefabCopy, action: any) {
