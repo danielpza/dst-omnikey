@@ -11,6 +11,7 @@ Keybindings can be changed in the configuration:
 | G           |             Equip best weapon by damage |
 | C           |                        Equip best armor |
 | V           |                       Equip best helmet |
+| Z           |                          Equip Umbrella |
 | 1           |                          Equip best axe |
 | 2           |                      Equip best pickaxe |
 | 3           |                       Equip best shovel |
@@ -24,6 +25,12 @@ Also when unequiping the hand slot using the keybindings it automatically equips
 ## Installing
 
 Download latest release from [github](https://github.com/danielpza/dst-omnikey/releases/)
+
+## Building
+
+```sh
+$ npm run build
+```
 
 ## Contributting
 

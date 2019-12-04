@@ -42,6 +42,10 @@ const configData = [
     getValue: (item: PrefabCopy) => armorValue(item, GLOBAL.EQUIPSLOTS.HEAD)
   },
   {
+    key: GetModConfigData("UMBRELLA"),
+    getValue: (item: PrefabCopy) => umbrellaValue(item)
+  },
+  {
     key: GetModConfigData("LIGHT"),
     getValue: (item: PrefabCopy) => {
       const index = [
@@ -110,6 +114,7 @@ function copyPrefab(prefab: string) {
   const cache = {
     prefab,
     components: {
+      waterproofer: pick(copy.components.waterproofer, ["effectiveness"]),
       insulator: pick(copy.components.insulator, ["insulation"]),
       eater: pick(copy.components.eater, ["preferseating"]),
       finiteuses: pick(copy.components.finiteuses, [
@@ -317,6 +322,11 @@ function valueByArmor(item: PrefabCopy) {
         item.components.armor.condition) ||
     0
   );
+}
+
+function umbrellaValue(item: PrefabCopy) {
+  if (!item.components.waterproofer || !item.components.equippable) return 0;
+  return item.components.waterproofer.effectiveness;
 }
 
 function armorValue(item: PrefabCopy, slot: any) {

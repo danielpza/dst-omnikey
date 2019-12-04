@@ -30,7 +30,8 @@ var configuration_options = [
   Keybind("HAMMER", "4", "Hammer Key"),
   Keybind("SCYTHE", "5", "Scythe Key"),
   Keybind("ARMOR", "c", "Armor"),
-  Keybind("HELMET", "v", "Helmet")
+  Keybind("HELMET", "v", "Helmet"),
+  Keybind("UMBRELLA", "z", "Umbrella")
 ];
 
 declare var string: string;
