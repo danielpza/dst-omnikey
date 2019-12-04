@@ -20,7 +20,8 @@ Keybindings can be changed in the configuration:
 | H           |                   Use best healing item |
 | J           |                                Eat food |
 
-Also when unequiping the hand slot using the keybindings it automatically equips a cane if available
+Also when unequiping the hand slot using the keybindings it automatically equips
+a cane if available, as well as insulating/dapper cloth for the body and head.
 
 ## Installing
 
