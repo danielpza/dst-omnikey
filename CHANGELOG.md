@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://github.com/danielpza/dst-omnikey/compare/v0.4.0...v0.5.0) (2019-12-04)
+
+
+### Bug Fixes
+
+* eater ([163433c](https://github.com/danielpza/dst-omnikey/commit/163433c))
+* healer ([c76ccc3](https://github.com/danielpza/dst-omnikey/commit/c76ccc3))
+
+
+### Features
+
+* add hammer key ([5bf3833](https://github.com/danielpza/dst-omnikey/commit/5bf3833))
+* equip insulator cloths ([8150422](https://github.com/danielpza/dst-omnikey/commit/8150422))
+* generic cane ([d84ba15](https://github.com/danielpza/dst-omnikey/commit/d84ba15))
+* improve clothing ([f3a876c](https://github.com/danielpza/dst-omnikey/commit/f3a876c))
+* umbrella ([0eb08b8](https://github.com/danielpza/dst-omnikey/commit/0eb08b8))
+
+
+
 ## [0.4.0](///compare/v0.3.0...v0.4.0) (2019-08-01)
 
 
