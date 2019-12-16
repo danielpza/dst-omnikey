@@ -16,7 +16,6 @@
   "files": [
     "*.lua"
   ],
-  "main": "set-version.js",
   "directories": {
     "lib": "lib"
   },
@@ -24,7 +23,7 @@
     "dev": "tsc-watch --compiler typescript-to-lua/dist/tstl --onSuccess 'npm run postbuild'",
     "prebuild": "rm -rf lib",
     "build": "tstl -p tsconfig.json",
-    "postbuild": "node set-version.js",
+    "postbuild": "node post-build.js",
     "pack": "npm run build && zip -rXj OmniKey.zip lib/*",
     "prepare": "npm run build",
     "release": "standard-version"
