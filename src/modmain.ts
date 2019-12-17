@@ -1,110 +1,242 @@
 /** @noSelfInFile **/
 
-const configData = [
-  {
-    key: GetModConfigData("WEAPON"),
-    getValue: valueByDamage
-  },
-  {
-    key: GetModConfigData("HEAL"),
-    getValue: valueByHeal
-  },
-  {
-    key: GetModConfigData("EAT"),
-    getValue: valueByEdible
-  },
-  {
-    key: GetModConfigData("AXE"),
-    getValue: (item: PrefabCopy) => toolValue(item, GLOBAL.ACTIONS.CHOP)
-  },
-  {
-    key: GetModConfigData("PICKAXE"),
-    getValue: (item: PrefabCopy) => toolValue(item, GLOBAL.ACTIONS.MINE)
-  },
-  {
-    key: GetModConfigData("SHOVEL"),
-    getValue: (item: PrefabCopy) => toolValue(item, GLOBAL.ACTIONS.DIG)
-  },
-  {
-    key: GetModConfigData("HAMMER"),
-    getValue: (item: PrefabCopy) => toolValue(item, GLOBAL.ACTIONS.HAMMER)
-  },
-  {
-    key: GetModConfigData("SCYTHE"),
-    getValue: scytheToolValue
-  },
-  {
-    key: GetModConfigData("ARMOR"),
-    getValue: (item: PrefabCopy) => armorValue(item, GLOBAL.EQUIPSLOTS.BODY)
-  },
-  {
-    key: GetModConfigData("HELMET"),
-    getValue: (item: PrefabCopy) => armorValue(item, GLOBAL.EQUIPSLOTS.HEAD)
-  },
-  {
-    key: GetModConfigData("UMBRELLA"),
-    getValue: (item: PrefabCopy) => umbrellaValue(item)
-  },
-  {
-    key: GetModConfigData("LIGHT"),
-    getValue: (item: PrefabCopy) => {
-      const index = [
-        "gears_hat_goggles",
-        "molehat",
-        "bottlelantern",
-        "lantern",
-        "minerhat",
-        "tarlamp",
-        "lighter",
-        "torch"
-      ].indexOf(item.prefab);
-      if (index === -1) return 0;
-      return 1 / index;
+const ACTION_DISTANCE = 40;
+
+class SingleThread {
+  thread: GLOBAL.Thread | null = null;
+  start(fn: () => void) {
+    this.stop();
+    this.thread = GLOBAL.StartThread(fn);
+  }
+  stop() {
+    if (this.thread) {
+      GLOBAL.KillThread(this.thread);
+      this.thread = null;
     }
   }
-];
+}
 
-function main() {
-  for (const data of configData) {
-    GLOBAL.TheInput.AddKeyUpHandler(data.key, () => {
-      if (
-        !GLOBAL.IsPaused() &&
-        GLOBAL.TheFrontEnd.GetActiveScreen() &&
-        GLOBAL.TheFrontEnd.GetActiveScreen().name &&
-        typeof GLOBAL.TheFrontEnd.GetActiveScreen().name === "string" &&
-        GLOBAL.TheFrontEnd.GetActiveScreen().name === "HUD"
-      ) {
-        const item = getBestItem(data.getValue);
-        if (item) {
-          const copy = getPrefabCopy(item.prefab);
-          if (!copy.components.equippable) return;
-          if (copy.components.equippable.equipslot === GLOBAL.EQUIPSLOTS.HANDS)
-            equip(item, GLOBAL.EQUIPSLOTS.HANDS, () => getBestItem(caneValue));
-          else if (
-            copy.components.equippable.equipslot === GLOBAL.EQUIPSLOTS.HEAD
-          )
-            equip(item, GLOBAL.EQUIPSLOTS.HEAD, () =>
-              getBestItem(item => clothValue(item, GLOBAL.EQUIPSLOTS.HEAD))
-            );
-          else if (
-            copy.components.equippable.equipslot === GLOBAL.EQUIPSLOTS.BODY
-          )
-            equip(item, GLOBAL.EQUIPSLOTS.BODY, () =>
-              getBestItem(item => clothValue(item, GLOBAL.EQUIPSLOTS.BODY))
-            );
-        }
+function isReady() {
+  return (
+    !GLOBAL.IsPaused() &&
+    GLOBAL.TheFrontEnd.GetActiveScreen() &&
+    GLOBAL.TheFrontEnd.GetActiveScreen().name &&
+    typeof GLOBAL.TheFrontEnd.GetActiveScreen().name === "string" &&
+    GLOBAL.TheFrontEnd.GetActiveScreen().name === "HUD" &&
+    GLOBAL.ThePlayer
+  );
+}
+
+function doAction(action: any) {
+  const player = GLOBAL.ThePlayer;
+  const ctrl = action.control || GLOBAL.CONTROL_PRIMARY;
+
+  if (ctrl === GLOBAL.CONTROL_PRIMARY) {
+    const target = action.target || null;
+    const position =
+      action.GetActionPoint() ||
+      (target && target.GetPosition()) ||
+      player.GetPosition();
+
+    GLOBAL.SendRPCToServer(
+      GLOBAL.RPC.LeftClick,
+      action.action.code,
+      position.x,
+      position.z,
+      target,
+      action.rotation,
+      player.components.playercontroller.EncodeControlMods(),
+      action.action.canforce,
+      action.action.modname
+    );
+  }
+}
+
+function canMakeRecipe(recipeName: string) {
+  const builder = GLOBAL.ThePlayer.replica.builder;
+  return builder.KnowsRecipe(recipeName) && builder.CanBuild(recipeName);
+}
+
+function makeRecipe(recipeName: string) {
+  const recipe = GLOBAL.GetValidRecipe(recipeName);
+  if (recipe && canMakeRecipe(recipeName)) {
+    GLOBAL.ThePlayer.replica.builder.MakeRecipeFromMenu(recipe);
+    return true;
+  }
+  return false;
+}
+
+interface Config {
+  tags?: string[];
+  action: GLOBAL.Action;
+  filter?: (this: void, item: Prefabs.Item) => boolean | undefined;
+  recipes?: string[];
+  equip?: (this: void, item: PrefabCopy) => number;
+  faster?: boolean;
+  exclude?: string[];
+}
+
+const config = {
+  pick: {
+    action: GLOBAL.ACTIONS.PICK,
+    tags: ["pickable"],
+    exclude: ["flower"]
+  },
+  pickup: {
+    action: GLOBAL.ACTIONS.PICKUP,
+    tags: ["_inventoryitem"],
+    filter: (item: Prefabs.Item) =>
+      item.replica.inventoryitem && item.replica.inventoryitem.CanBePickedUp()
+  },
+  chop: {
+    action: GLOBAL.ACTIONS.CHOP,
+    tags: ["CHOP_workable"],
+    equip: (item: PrefabCopy) => toolValue(item, GLOBAL.ACTIONS.CHOP),
+    recipes: ["goldenaxe", "axe"],
+    faster: true
+  },
+  mine: {
+    action: GLOBAL.ACTIONS.MINE,
+    tags: ["MINE_workable"],
+    equip: (item: PrefabCopy) => toolValue(item, GLOBAL.ACTIONS.MINE),
+    recipes: ["goldenpickaxe", "pickaxe"],
+    faster: true
+  }
+};
+
+function isBusy() {
+  const player = GLOBAL.ThePlayer;
+  return (
+    player.replica.builder.IsBusy() ||
+    player.components.playercontroller.IsDoingOrWorking() ||
+    !player.HasTag("idle") ||
+    player.HasTag("moving")
+  );
+}
+
+function tryMakeRecipes(recipes: string[]): boolean {
+  const index = recipes.findIndex(recipeName => canMakeRecipe(recipeName));
+  if (index === -1) return false;
+  makeRecipe(recipes[index]);
+  return true;
+}
+
+function main(pc: Prefabs.Player["components"]["playercontroller"]) {
+  const thread = new SingleThread();
+  const prevOnControl = pc.OnControl;
+  pc.OnControl = function(this, control, down) {
+    if (
+      control === GLOBAL.CONTROL_MOVE_UP ||
+      control === GLOBAL.CONTROL_MOVE_DOWN ||
+      control === GLOBAL.CONTROL_MOVE_LEFT ||
+      control === GLOBAL.CONTROL_MOVE_RIGHT
+    )
+      thread.stop();
+    prevOnControl.call(this, control, down);
+  };
+  for (const [key, data] of [
+    [GetModConfigData("MINE"), config.mine],
+    [GetModConfigData("CHOP"), config.chop],
+    [GetModConfigData("PICK"), config.pick],
+    [GetModConfigData("PICKUP"), config.pickup]
+  ]) {
+    GLOBAL.TheInput.AddKeyUpHandler(key, () => {
+      if (isReady())
+        thread.start(() => {
+          while (doThreadAction(data));
+        });
+    });
+  }
+  for (const [key, fn] of [
+    [GetModConfigData("WEAPON"), valueByDamage],
+    [
+      GetModConfigData("HELMET"),
+      (item: PrefabCopy) => armorValue(item, GLOBAL.EQUIPSLOTS.HEAD)
+    ],
+    [
+      GetModConfigData("ARMOR"),
+      (item: PrefabCopy) => armorValue(item, GLOBAL.EQUIPSLOTS.BODY)
+    ],
+    [
+      GetModConfigData("LIGHT"),
+      (item: PrefabCopy) => {
+        const index = [
+          "gears_hat_goggles",
+          "molehat",
+          "bottlelantern",
+          "lantern",
+          "minerhat",
+          "tarlamp",
+          "lighter",
+          "torch"
+        ].indexOf(item.prefab);
+        if (index === -1) return 0;
+        return 1 / index;
       }
+    ]
+  ]) {
+    GLOBAL.TheInput.AddKeyUpHandler(key, () => {
+      if (isReady()) ensureEquipped(fn, true);
     });
   }
 }
 
-function equip(item: Prefabs.Item, slot: any, altFn: () => Prefabs.Item) {
-  const equipped = GLOBAL.ThePlayer.replica.inventory.GetEquippedItem(slot);
-  if (equipped === item) {
-    const alt = altFn();
-    if (alt) GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(alt);
+function doThreadAction({
+  action,
+  tags,
+  filter,
+  faster,
+  equip,
+  recipes,
+  exclude
+}: Config) {
+  const target = GLOBAL.FindEntity(
+    GLOBAL.ThePlayer,
+    ACTION_DISTANCE,
+    filter,
+    tags,
+    exclude
+  );
+  if (!target) return false;
+  if (equip) {
+    if (!ensureEquipped(equip)) {
+      if (!recipes || !tryMakeRecipes(recipes)) return;
+      GLOBAL.Sleep(GLOBAL.FRAMES * 6);
+      while (isBusy()) GLOBAL.Sleep(GLOBAL.FRAMES * 3);
+      ensureEquipped(equip);
+    }
   }
-  GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(item);
+
+  const act = GLOBAL.BufferedAction(GLOBAL.ThePlayer, target, action);
+  GLOBAL.ThePlayer.components.playercontroller.DoAction(act);
+  doAction(act);
+  GLOBAL.Sleep(GLOBAL.FRAMES * 6);
+  while (isBusy()) {
+    if (faster) doAction(act);
+    GLOBAL.Sleep(GLOBAL.FRAMES * 3);
+  }
+  return true;
+}
+
+function ensureEquipped(fn: (item: PrefabCopy) => number, unequip = false) {
+  const item = getBestItem(fn);
+  if (!item) return false;
+  const copy = getPrefabCopy(item.prefab);
+  if (!copy.components.equippable) return;
+  const equipped = GLOBAL.ThePlayer.replica.inventory.GetEquippedItem(
+    copy.components.equippable.equipslot
+  );
+  if (equipped !== item)
+    GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(item);
+  else if (unequip)
+    if (copy.components.equippable.equipslot === GLOBAL.EQUIPSLOTS.HANDS)
+      ensureEquipped(caneValue) ||
+        GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(item);
+    else
+      ensureEquipped((item: PrefabCopy) =>
+        clothValue(item, copy.components.equippable!.equipslot)
+      ) || GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(item);
+  return true;
 }
 
 function copyPrefab(prefab: string) {
@@ -161,7 +293,9 @@ function getPrefabCopy(prefab: string) {
   return prefabCache[prefab];
 }
 
-function getBestItem(getValue: (item: PrefabCopy) => number): Prefabs.Item {
+function getBestItem(
+  getValue: (item: PrefabCopy) => number
+): Prefabs.Item | undefined {
   const items = GLOBAL.ThePlayer.replica.inventory.GetItems();
   const equips = GLOBAL.ThePlayer.replica.inventory.GetEquips();
   const activeItem = GLOBAL.ThePlayer.replica.inventory.GetActiveItem();
@@ -178,20 +312,20 @@ function getBestItem(getValue: (item: PrefabCopy) => number): Prefabs.Item {
     [];
   return getBestItemInList(
     [
-      getBestItemInList(equippedItems as any, getValue) as any,
-      getBestItemInList(items as any, getValue) as any,
-      getBestItemInList(equips as any, getValue) as any,
-      getBestItemInList(backpackItems as any, getValue) as any,
+      getBestItemInList(equippedItems, getValue),
+      getBestItemInList(items, getValue),
+      getBestItemInList(equips, getValue),
+      getBestItemInList(backpackItems, getValue),
       activeItem
     ],
     getValue
-  ) as any;
+  );
 }
 
 function getBestItemInList(
   items: Record<number, Prefab | undefined>,
   getValue: (item: PrefabCopy) => number
-): Prefab<never, "inventory"> | undefined {
+): Prefabs.Item | undefined {
   let best: Prefab | undefined = undefined;
   let bestValue = 0;
   for (const item of Object.values(items)) {
@@ -226,34 +360,7 @@ function getCopy<T>(obj: T): T {
   return result;
 }
 
-main();
-
-// prefabs helpers
-function valueByEdible(item: PrefabCopy) {
-  if (
-    !canEat(item) ||
-    !item.components.edible ||
-    item.components.edible.healthvalue < -5 ||
-    item.components.edible.hungervalue <= 0
-  )
-    return 0;
-  return (
-    500 / item.components.edible.hungervalue +
-    (item.components.edible.sanityvalue + item.components.edible.healthvalue) /
-      2
-  );
-}
-
-function valueByHeal(item: PrefabCopy) {
-  return (
-    (item.components.healer && item.components.healer.health) ||
-    (canEat(item) &&
-      item.components.edible &&
-      item.components.edible.healthvalue >= 10 &&
-      item.components.edible.healthvalue) ||
-    0
-  );
-}
+AddComponentPostInit("playercontroller", main as any);
 
 function clothValue(item: PrefabCopy, slot: any) {
   return (
@@ -344,19 +451,6 @@ function toolValue(item: PrefabCopy, action: any) {
       valueByConsumption(item, action) * 1000 + valueByUsage(item)) ||
     0
   );
-}
-
-function scytheToolValue(item: PrefabCopy) {
-  return (
-    (item.original.HasTag("mower") &&
-      valueByConsumption(item, GLOBAL.ACTIONS.PICK) * 1000 +
-        valueByUsage(item)) ||
-    0
-  );
-}
-
-function hasPrefab(item: PrefabCopy, prefab: string) {
-  return item.prefab === prefab ? 1 : 0;
 }
 
 function caneValue(item: PrefabCopy) {

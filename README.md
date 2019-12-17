@@ -1,24 +1,21 @@
 # OmniKey
 
 A Don't Starve Together Mod. Add keybindings to use with tools, weapons, armor and much more.
+Now including automatic actions like picking up items from the ground, harvesting, choping and mining.
 
 # Usage
 
 Keybindings can be changed in the configuration:
 
-| Default Key |                                Function |
-| :---------- | --------------------------------------: |
-| G           |             Equip best weapon by damage |
-| C           |                        Equip best armor |
-| V           |                       Equip best helmet |
-| Z           |                          Equip Umbrella |
-| 1           |                          Equip best axe |
-| 2           |                      Equip best pickaxe |
-| 3           |                       Equip best shovel |
-| 4           |                     Equip (best) hammer |
-| 5           | Equip best scythe, requires scythes mod |
-| H           |                   Use best healing item |
-| J           |                                Eat food |
+| Default Key |                    Function |
+| :---------- | --------------------------: |
+| G           | Equip best weapon by damage |
+| C           |            Equip best armor |
+| V           |           Equip best helmet |
+| L           |         Start picking items |
+| K           |            Start harvesting |
+| J           |           Starting chopping |
+| O           |                Start mining |
 
 Also when unequiping the hand slot using the keybindings it automatically equips
 a cane if available, as well as insulating/dapper cloth for the body and head.

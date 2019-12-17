@@ -21,17 +21,13 @@ generateKeys(keys, "a", "z");
 
 var configuration_options = [
   Keybind("WEAPON", "g", "Weapon Key"),
-  Keybind("HEAL", "h", "Heal Key"),
-  Keybind("EAT", "j", "Eat Key"),
   Keybind("LIGHT", "t", "Light"),
-  Keybind("AXE", "1", "Axe Key"),
-  Keybind("PICKAXE", "2", "Pickaxe Key"),
-  Keybind("SHOVEL", "3", "Shovel Key"),
-  Keybind("HAMMER", "4", "Hammer Key"),
-  Keybind("SCYTHE", "5", "Scythe Key"),
   Keybind("ARMOR", "c", "Armor"),
   Keybind("HELMET", "v", "Helmet"),
-  Keybind("UMBRELLA", "z", "Umbrella")
+  Keybind("PICK", "k", "Pick (harvest) key"),
+  Keybind("PICKUP", "l", "Pick up key"),
+  Keybind("CHOP", "i", "Chop key"),
+  Keybind("MINE", "o", "Mine key")
 ];
 
 declare var string: string;
