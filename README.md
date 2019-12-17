@@ -37,5 +37,5 @@ Install nodejs and npm:
 ```sh
 $ npm install
 $ ln -sr lib /path/to/dst/mods/folder # make link to mods folder
-$ npx tstl --watch
+$ npm run dev
 ```
