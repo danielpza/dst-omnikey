@@ -380,17 +380,6 @@ function valueByInsulation(item: PrefabCopy) {
   return item.components.insulator.insulation || 0;
 }
 
-function canEat(item: PrefabCopy) {
-  const player = getPrefabCopy(GLOBAL.ThePlayer.prefab);
-  return (
-    item.components.edible &&
-    player.components.eater &&
-    player.components.eater.preferseating.indexOf(
-      item.components.edible.foodtype
-    ) !== -1
-  );
-}
-
 function canBeEquipped(item: PrefabCopy, slot: any) {
   return (
     item.components.equippable && item.components.equippable.equipslot === slot
@@ -429,11 +418,6 @@ function valueByArmor(item: PrefabCopy) {
         item.components.armor.condition) ||
     0
   );
-}
-
-function umbrellaValue(item: PrefabCopy) {
-  if (!item.components.waterproofer || !item.components.equippable) return 0;
-  return item.components.waterproofer.effectiveness;
 }
 
 function armorValue(item: PrefabCopy, slot: any) {
