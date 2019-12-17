@@ -23,10 +23,10 @@ updateFile(
     content.replace(new RegExp("scripts.omnikey.", "g"), "omnikey/")
 );
 
-updateFile(resolve(__dirname, "./lib/scripts/omnikey/cache.lua"), content =>
-  content.replace(new RegExp("GLOBAL.", "g"), "")
-);
-
-updateFile(resolve(__dirname, "./lib/scripts/omnikey/values.lua"), content =>
-  content.replace(new RegExp("GLOBAL.", "g"), "")
-);
+["cache", "utils", "values"].forEach(name => {
+  updateFile(resolve(__dirname, `./lib/scripts/omnikey/${name}.lua`), content =>
+    content
+      .replace(new RegExp("GLOBAL.", "g"), "")
+      .replace(new RegExp("scripts.omnikey.", "g"), "omnikey/")
+  );
+});
