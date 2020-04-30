@@ -26,7 +26,7 @@ var configuration_options = [
   Keybind("HELMET", "v", "Helmet"),
   Keybind("PICK", "k", "Pick (harvest) key"),
   Keybind("PICKUP", "l", "Pick up key"),
-  Keybind("CHOP", "i", "Chop key"),
+  Keybind("CHOP", "j", "Chop key"),
   Keybind("MINE", "o", "Mine key")
 ];
 
