@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.7.0](https://github.com/danielpza/dst-omnikey/compare/v0.6.0...v0.7.0) (2020-05-02)
+
+
+### Features
+
+* add images ([41e9749](https://github.com/danielpza/dst-omnikey/commit/41e9749))
+* disable fast mode by default ([eaf1fed](https://github.com/danielpza/dst-omnikey/commit/eaf1fed))
+
+
+
 ## [0.6.0](https://github.com/danielpza/dst-omnikey/compare/v0.5.0...v0.6.0) (2019-12-17)
 
 
