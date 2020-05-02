@@ -6,13 +6,16 @@ var author = "Daniel Perez Alvarez";
 
 var api_version = 10;
 
-var dont_starve_compatible = true;
-var reign_of_giants_compatible = true;
+var dont_starve_compatible = false;
+var reign_of_giants_compatible = false;
 var all_clients_require_mod = false;
 var dst_compatible = true;
 var client_only_mod = true;
 var keyslist: { description: string; data: string }[] = [];
+var priority = 0;
 
+var icon = "modicon.tex";
+var icon_atlas = "modicon.xml";
 string = "";
 
 let keys = [] as any[];
