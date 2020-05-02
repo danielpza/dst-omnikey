@@ -9,9 +9,22 @@ import {
   caneValue,
   clothValue,
   armorHeadValue,
-  armorBodyValue
+  armorBodyValue,
 } from "./scripts/omnikey/values";
 import { SingleThread, getBestItem } from "./scripts/omnikey/utils";
+
+const showButtons = GetModConfigData("SHOW_BUTTONS");
+const showKeybinding = GetModConfigData("SHOW_KEYBINDING");
+
+type Klass = (...params: any[]) => any;
+
+const IMAGE_SIZE = 68; // or 63
+const VERTICAL_OFFSET = 160;
+// const Widget = GLOBAL.require("widgets/widget");
+const Image = GLOBAL.require("widgets/image") as Klass;
+const ImageButton = GLOBAL.require("widgets/imagebutton") as Klass;
+const Button = GLOBAL.require("widgets/button") as Klass;
+const DEFAULT_IMAGE = "cutgrass";
 
 const ACTION_DISTANCE = 40;
 
@@ -33,36 +46,41 @@ const config = {
   pick: {
     action: GLOBAL.ACTIONS.PICK,
     tags: ["pickable"],
-    exclude: ["flower"]
+    exclude: ["flower"],
+    image: "dug_grass",
   },
   pickup: {
     action: GLOBAL.ACTIONS.PICKUP,
     tags: ["_inventoryitem"],
     filter: (item: Prefabs.Item) =>
-      item.replica.inventoryitem && item.replica.inventoryitem.CanBePickedUp()
+      item.replica.inventoryitem && item.replica.inventoryitem.CanBePickedUp(),
+    image: "cutgrass",
   },
   chop: {
     action: GLOBAL.ACTIONS.CHOP,
     tags: ["CHOP_workable"],
     equip: axeValue,
     recipes: ["goldenaxe", "axe"],
-    faster: true
+    faster: true,
+    image: "axe",
   },
   mine: {
     action: GLOBAL.ACTIONS.MINE,
     tags: ["MINE_workable"],
     equip: pickaxeValue,
     recipes: ["goldenpickaxe", "pickaxe"],
-    faster: true
-  }
+    faster: true,
+    image: "pickaxe",
+  },
 };
 
-AddComponentPostInit("playercontroller", main);
+let pc = (null as any) as Prefabs.Player["components"]["playercontroller"];
+let inventorybar = null as any;
 
-function main(pc: Prefabs.Player["components"]["playercontroller"]) {
+function main() {
   const thread = new SingleThread();
   const prevOnControl = pc.OnControl;
-  pc.OnControl = function(this, control, down) {
+  pc.OnControl = function (this, control, down) {
     if (
       control === GLOBAL.CONTROL_MOVE_UP ||
       control === GLOBAL.CONTROL_MOVE_DOWN ||
@@ -72,24 +90,35 @@ function main(pc: Prefabs.Player["components"]["playercontroller"]) {
       thread.stop();
     prevOnControl.call(this, control, down);
   };
+  let index = 0;
   for (const [key, data] of [
-    [GetModConfigData("MINE"), config.mine],
-    [GetModConfigData("CHOP"), config.chop],
+    [GetModConfigData("PICKUP"), config.pickup],
     [GetModConfigData("PICK"), config.pick],
-    [GetModConfigData("PICKUP"), config.pickup]
+    [GetModConfigData("CHOP"), config.chop],
+    [GetModConfigData("MINE"), config.mine],
   ]) {
-    GLOBAL.TheInput.AddKeyUpHandler(key, () => {
+    index += 1;
+    const start = () => {
       if (isReady())
         thread.start(() => {
           while (doThreadAction(data));
         });
-    });
+    };
+    if (showButtons) {
+      addButton(inventorybar, {
+        image: data.image || DEFAULT_IMAGE,
+        position: 10 + index,
+        text: String.fromCharCode(key).toUpperCase(),
+        onClick: start,
+      });
+    }
+    GLOBAL.TheInput.AddKeyUpHandler(key, start);
   }
   for (const [key, fn] of [
     [GetModConfigData("WEAPON"), weaponValue],
     [GetModConfigData("HELMET"), armorHeadValue],
     [GetModConfigData("ARMOR"), armorBodyValue],
-    [GetModConfigData("LIGHT"), lightValue]
+    [GetModConfigData("LIGHT"), lightValue],
   ]) {
     GLOBAL.TheInput.AddKeyUpHandler(key, () => {
       if (isReady()) ensureEquipped(fn, true);
@@ -158,7 +187,7 @@ function makeRecipe(recipeName: string) {
 }
 
 function tryMakeRecipes(recipes: string[]): boolean {
-  const index = recipes.findIndex(recipeName => canMakeRecipe(recipeName));
+  const index = recipes.findIndex((recipeName) => canMakeRecipe(recipeName));
   if (index === -1) return false;
   makeRecipe(recipes[index]);
   return true;
@@ -171,7 +200,7 @@ function doThreadAction({
   faster,
   equip,
   recipes,
-  exclude
+  exclude,
 }: Config) {
   const target = GLOBAL.FindEntity(
     GLOBAL.ThePlayer,
@@ -221,3 +250,56 @@ function ensureEquipped(fn: (item: PrefabCopy) => number, unequip = false) {
       ) || GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(item);
   return true;
 }
+
+function addButton(
+  parent: any,
+  {
+    position,
+    text,
+    onClick,
+    image,
+  }: {
+    image: string;
+    position: number;
+    text: string;
+    onClick: () => void;
+  }
+) {
+  const button = parent.AddChild(ImageButton("images/hud.xml", "inv_slot.tex"));
+  const x = IMAGE_SIZE * (-10 + position);
+  button.SetPosition(x, VERTICAL_OFFSET, 0);
+  button.SetOnClick(onClick);
+  button.MoveToFront();
+
+  const icon = button.AddChild(
+    Image(GLOBAL.GetInventoryItemAtlas(image + ".tex"), `${image}.tex`)
+  );
+  // GLOBAL.EQUIPSLOTS
+  icon.SetScale(0.8, 0.8, 0.8);
+  icon.MoveToFront();
+
+  if (showKeybinding) {
+    const letter = button.AddChild(Button());
+    letter.SetText(text);
+    letter.SetPosition(5, 0, 0);
+    letter.SetFont("stint-ucr");
+    letter.SetTextColour(1, 1, 1, 1);
+    letter.SetTextFocusColour(1, 1, 1, 1);
+    letter.SetTextSize(50);
+    letter.MoveToFront();
+  }
+}
+
+let ready = false;
+
+AddClassPostConstruct("widgets/inventorybar", function (this: any) {
+  inventorybar = this;
+  if (ready) main();
+  ready = true;
+});
+
+AddComponentPostInit("playercontroller", function (playercontrol: any) {
+  pc = playercontrol;
+  if (ready) main();
+  ready = true;
+});

@@ -19,7 +19,14 @@ let keys = [] as any[];
 generateKeys(keys, "0", "9");
 generateKeys(keys, "a", "z");
 
+const boolOptions = [
+  { description: "Yes", data: true },
+  { description: "No", data: false },
+];
+
 var configuration_options = [
+  BooleanOption("SHOW_BUTTONS", true, "Show buttons"),
+  BooleanOption("SHOW_KEYBINDING", false, "Show keys"),
   Keybind("WEAPON", "g", "Weapon Key"),
   Keybind("LIGHT", "t", "Light"),
   Keybind("ARMOR", "c", "Armor"),
@@ -27,7 +34,7 @@ var configuration_options = [
   Keybind("PICK", "k", "Pick (harvest) key"),
   Keybind("PICKUP", "l", "Pick up key"),
   Keybind("CHOP", "j", "Chop key"),
-  Keybind("MINE", "o", "Mine key")
+  Keybind("MINE", "o", "Mine key"),
 ];
 
 declare var string: string;
@@ -42,6 +49,10 @@ function generateKeys(
     const key = String.fromCharCode(i);
     result[result.length] = { description: key, data: i };
   }
+}
+
+function BooleanOption(name: string, def: boolean, label: string) {
+  return { name, default: def, options: boolOptions, label };
 }
 
 function Keybind(name: string, def: string, label: string) {
