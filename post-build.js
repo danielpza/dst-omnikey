@@ -6,6 +6,8 @@ const {
   compilerOptions: { outDir },
 } = require("./tsconfig.json");
 
+const readme = readFileSync(resolve(__dirname, "README.md"), "utf8").toString();
+
 function updateFile(file, updater) {
   writeFileSync(file, updater(readFileSync(file, "utf8").toString()));
 }
@@ -15,6 +17,7 @@ updateFile(resolve(__dirname, outDir, "modinfo.lua"), (content) =>
     .replace("$VERSION", version)
     .replace("$DESCRIPTION", description)
     .replace("$HOMEPAGE", homepage)
+    .replace("$README", readme.replace(/\n/g, "\\n"))
 );
 
 updateFile(
