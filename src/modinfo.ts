@@ -27,6 +27,12 @@ const boolOptions = [
 var configuration_options = [
   BooleanOption("SHOW_BUTTONS", true, "Show buttons"),
   BooleanOption("SHOW_KEYBINDING", false, "Show keys"),
+  BooleanOption(
+    "WORK_FAST",
+    false,
+    "Work fast?",
+    "Faster chop, mine, etc, ie hacky mode"
+  ),
   Keybind("WEAPON", "g", "Weapon Key"),
   Keybind("LIGHT", "t", "Light"),
   Keybind("ARMOR", "c", "Armor"),
@@ -51,8 +57,13 @@ function generateKeys(
   }
 }
 
-function BooleanOption(name: string, def: boolean, label: string) {
-  return { name, default: def, options: boolOptions, label };
+function BooleanOption(
+  name: string,
+  def: boolean,
+  label: string,
+  hover?: string
+) {
+  return { name, default: def, options: boolOptions, label, hover };
 }
 
 function Keybind(name: string, def: string, label: string) {

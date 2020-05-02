@@ -15,6 +15,7 @@ import { SingleThread, getBestItem } from "./scripts/omnikey/utils";
 
 const showButtons = GetModConfigData("SHOW_BUTTONS");
 const showKeybinding = GetModConfigData("SHOW_KEYBINDING");
+const workFast = GetModConfigData("WORK_FAST");
 
 type Klass = (...params: any[]) => any;
 
@@ -61,7 +62,7 @@ const config = {
     tags: ["CHOP_workable"],
     equip: axeValue,
     recipes: ["goldenaxe", "axe"],
-    faster: true,
+    faster: workFast && true,
     image: "axe",
   },
   mine: {
@@ -69,7 +70,7 @@ const config = {
     tags: ["MINE_workable"],
     equip: pickaxeValue,
     recipes: ["goldenpickaxe", "pickaxe"],
-    faster: true,
+    faster: workFast && true,
     image: "pickaxe",
   },
 };
