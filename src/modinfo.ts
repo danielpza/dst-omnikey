@@ -28,6 +28,10 @@ const boolOptions = [
 ];
 
 var configuration_options = [
+  Keybind("WEAPON", "g", "Weapon Key"),
+  Keybind("LIGHT", "t", "Light"),
+  Keybind("ARMOR", "c", "Armor"),
+  Keybind("HELMET", "v", "Helmet"),
   BooleanOption(
     "WORK_FAST",
     false,
@@ -35,15 +39,32 @@ var configuration_options = [
     "Faster chop, mine, etc, ie hacky mode"
   ),
   BooleanOption("SHOW_BUTTONS", true, "Show buttons"),
+  BooleanOption("BIND_KEYS", true, "Add keybindings"),
   BooleanOption("SHOW_KEYBINDING", true, "Show keys"),
-  Keybind("WEAPON", "g", "Weapon Key"),
-  Keybind("LIGHT", "t", "Light"),
-  Keybind("ARMOR", "c", "Armor"),
-  Keybind("HELMET", "v", "Helmet"),
-  Keybind("PICK", "k", "Pick (harvest) key"),
-  Keybind("PICKUP", "l", "Pick up key"),
-  Keybind("CHOP", "j", "Chop key"),
-  Keybind("MINE", "o", "Mine key"),
+  Keybind(
+    "PICK",
+    "k",
+    "Pick (harvest) key",
+    'Must enable "Add keybindings" options to work'
+  ),
+  Keybind(
+    "PICKUP",
+    "l",
+    "Pick up key",
+    'Must enable "Add keybindings" options to work'
+  ),
+  Keybind(
+    "CHOP",
+    "j",
+    "Chop key",
+    'Must enable "Add keybindings" options to work'
+  ),
+  Keybind(
+    "MINE",
+    "o",
+    "Mine key",
+    'Must enable "Add keybindings" options to work'
+  ),
 ];
 
 declare var string: string;
@@ -69,6 +90,12 @@ function BooleanOption(
   return { name, default: def, options: boolOptions, label, hover };
 }
 
-function Keybind(name: string, def: string, label: string) {
-  return { name, label, default: def.charCodeAt(0), options: keys };
+function Keybind(name: string, def: string, label: string, hover?: string) {
+  return {
+    name,
+    label,
+    default: def.charCodeAt(0),
+    options: keys,
+    hover,
+  };
 }

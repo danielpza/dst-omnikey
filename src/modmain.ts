@@ -15,6 +15,7 @@ import { SingleThread, getBestItem } from "./scripts/omnikey/utils";
 
 const showButtons = GetModConfigData("SHOW_BUTTONS");
 const showKeybinding = GetModConfigData("SHOW_KEYBINDING");
+const addKeybindings = GetModConfigData("BIND_KEYS");
 const workFast = GetModConfigData("WORK_FAST");
 
 type Klass = (...params: any[]) => any;
@@ -113,7 +114,9 @@ function main() {
         onClick: start,
       });
     }
-    GLOBAL.TheInput.AddKeyUpHandler(key, start);
+    if (addKeybindings) {
+      GLOBAL.TheInput.AddKeyUpHandler(key, start);
+    }
   }
   for (const [key, fn] of [
     [GetModConfigData("WEAPON"), weaponValue],
@@ -262,7 +265,7 @@ function addButton(
   }: {
     image: string;
     position: number;
-    text: string;
+    text?: string;
     onClick: () => void;
   }
 ) {
@@ -279,7 +282,7 @@ function addButton(
   icon.SetScale(0.8, 0.8, 0.8);
   icon.MoveToFront();
 
-  if (showKeybinding) {
+  if (showKeybinding && addKeybindings) {
     const letter = button.AddChild(Button());
     letter.SetText(text);
     letter.SetPosition(5, 0, 0);
