@@ -34,7 +34,7 @@ export interface PrefabCopy extends ReturnType<typeof getPrefabCopy> {
   original: Prefab;
 }
 
-interface Config {
+interface TaskConfig {
   tags?: string[];
   action: GLOBAL.Action;
   filter?: (this: void, item: Prefabs.Item) => boolean | undefined;
@@ -44,42 +44,60 @@ interface Config {
   exclude?: string[];
 }
 
-const config = {
-  pick: {
-    action: GLOBAL.ACTIONS.PICK,
-    tags: ["pickable"],
-    exclude: ["flower"],
-    image: "dug_grass",
-  },
-  pickup: {
-    action: GLOBAL.ACTIONS.PICKUP,
-    tags: ["_inventoryitem"],
-    filter: (item: Prefabs.Item) =>
-      item.replica.inventoryitem && item.replica.inventoryitem.CanBePickedUp(),
-    image: "cutgrass",
-  },
-  chop: {
-    action: GLOBAL.ACTIONS.CHOP,
-    tags: ["CHOP_workable"],
-    equip: axeValue,
-    recipes: ["goldenaxe", "axe"],
-    faster: workFast && true,
-    image: "axe",
-  },
-  mine: {
-    action: GLOBAL.ACTIONS.MINE,
-    tags: ["MINE_workable"],
-    equip: pickaxeValue,
-    recipes: ["goldenpickaxe", "pickaxe"],
-    faster: workFast && true,
-    image: "pickaxe",
-  },
-};
-
 let pc = (null as any) as Prefabs.Player["components"]["playercontroller"];
 let inventorybar = null as any;
 
 function main() {
+  setupTaskKeys();
+  setupGearKeys();
+}
+
+function setupGearKeys() {
+  for (const [key, fn] of [
+    [GetModConfigData("WEAPON"), weaponValue],
+    [GetModConfigData("HELMET"), armorHeadValue],
+    [GetModConfigData("ARMOR"), armorBodyValue],
+    [GetModConfigData("LIGHT"), lightValue],
+  ]) {
+    GLOBAL.TheInput.AddKeyUpHandler(key, () => {
+      if (isReady()) ensureEquipped(fn, true);
+    });
+  }
+}
+
+function setupTaskKeys() {
+  const taskConfig = {
+    pick: {
+      action: GLOBAL.ACTIONS.PICK,
+      tags: ["pickable"],
+      exclude: ["flower"],
+      image: "dug_grass",
+    },
+    pickup: {
+      action: GLOBAL.ACTIONS.PICKUP,
+      tags: ["_inventoryitem"],
+      filter: (item: Prefabs.Item) =>
+        item.replica.inventoryitem &&
+        item.replica.inventoryitem.CanBePickedUp(),
+      image: "cutgrass",
+    },
+    chop: {
+      action: GLOBAL.ACTIONS.CHOP,
+      tags: ["CHOP_workable"],
+      equip: axeValue,
+      recipes: ["goldenaxe", "axe"],
+      faster: workFast && true,
+      image: "axe",
+    },
+    mine: {
+      action: GLOBAL.ACTIONS.MINE,
+      tags: ["MINE_workable"],
+      equip: pickaxeValue,
+      recipes: ["goldenpickaxe", "pickaxe"],
+      faster: workFast && true,
+      image: "pickaxe",
+    },
+  };
   const thread = new SingleThread();
   const prevOnControl = pc.OnControl;
   pc.OnControl = function (this, control, down) {
@@ -94,10 +112,10 @@ function main() {
   };
   let index = 0;
   for (const [key, data] of [
-    [GetModConfigData("PICKUP"), config.pickup],
-    [GetModConfigData("PICK"), config.pick],
-    [GetModConfigData("CHOP"), config.chop],
-    [GetModConfigData("MINE"), config.mine],
+    [GetModConfigData("PICKUP"), taskConfig.pickup],
+    [GetModConfigData("PICK"), taskConfig.pick],
+    [GetModConfigData("CHOP"), taskConfig.chop],
+    [GetModConfigData("MINE"), taskConfig.mine],
   ]) {
     index += 1;
     const start = () => {
@@ -117,16 +135,6 @@ function main() {
     if (addKeybindings) {
       GLOBAL.TheInput.AddKeyUpHandler(key, start);
     }
-  }
-  for (const [key, fn] of [
-    [GetModConfigData("WEAPON"), weaponValue],
-    [GetModConfigData("HELMET"), armorHeadValue],
-    [GetModConfigData("ARMOR"), armorBodyValue],
-    [GetModConfigData("LIGHT"), lightValue],
-  ]) {
-    GLOBAL.TheInput.AddKeyUpHandler(key, () => {
-      if (isReady()) ensureEquipped(fn, true);
-    });
   }
 }
 
@@ -205,7 +213,7 @@ function doThreadAction({
   equip,
   recipes,
   exclude,
-}: Config) {
+}: TaskConfig) {
   const target = GLOBAL.FindEntity(
     GLOBAL.ThePlayer,
     ACTION_DISTANCE,
