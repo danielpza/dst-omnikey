@@ -23,19 +23,19 @@ generateKeys(keys, "0", "9");
 generateKeys(keys, "a", "z");
 
 const boolOptions = [
-  { description: "Yes", data: true },
   { description: "No", data: false },
+  { description: "Yes", data: true },
 ];
 
 var configuration_options = [
-  BooleanOption("SHOW_BUTTONS", true, "Show buttons"),
-  BooleanOption("SHOW_KEYBINDING", false, "Show keys"),
   BooleanOption(
     "WORK_FAST",
     false,
     "Work fast?",
     "Faster chop, mine, etc, ie hacky mode"
   ),
+  BooleanOption("SHOW_BUTTONS", true, "Show buttons"),
+  BooleanOption("SHOW_KEYBINDING", true, "Show keys"),
   Keybind("WEAPON", "g", "Weapon Key"),
   Keybind("LIGHT", "t", "Light"),
   Keybind("ARMOR", "c", "Armor"),
