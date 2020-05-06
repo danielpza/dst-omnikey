@@ -28,6 +28,12 @@ const boolOptions = [
 ];
 
 var configuration_options = [
+  BooleanOption(
+    "USE_HAMBAT",
+    true,
+    "Use hambat",
+    "Prioritize hambat when choosing best weapon"
+  ),
   Keybind("WEAPON", "g", "Weapon Key"),
   Keybind("LIGHT", "t", "Light"),
   Keybind("ARMOR", "c", "Armor"),

@@ -17,6 +17,7 @@ const showButtons = GetModConfigData("SHOW_BUTTONS");
 const showKeybinding = GetModConfigData("SHOW_KEYBINDING");
 const addKeybindings = GetModConfigData("BIND_KEYS");
 const workFast = GetModConfigData("WORK_FAST");
+const useHambat = GetModConfigData("USE_HAMBAT");
 
 type Klass = (...params: any[]) => any;
 
@@ -52,9 +53,12 @@ function main() {
   setupGearKeys();
 }
 
+const hambatOrWeaponValue = (item: PrefabCopy) =>
+  item.prefab === "hambat" ? 10000 : weaponValue(item);
+
 function setupGearKeys() {
   for (const [key, fn] of [
-    [GetModConfigData("WEAPON"), weaponValue],
+    [GetModConfigData("WEAPON"), useHambat ? hambatOrWeaponValue : weaponValue],
     [GetModConfigData("HELMET"), armorHeadValue],
     [GetModConfigData("ARMOR"), armorBodyValue],
     [GetModConfigData("LIGHT"), lightValue],
