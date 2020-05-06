@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.8.0](https://github.com/danielpza/dst-omnikey/compare/v0.7.0...v0.8.0) (2020-05-06)
+
+
+### Features
+
+* add button icons for equipments too ([c283107](https://github.com/danielpza/dst-omnikey/commit/c283107))
+* add option to prioritize hambat when choosing weapon ([080c1d8](https://github.com/danielpza/dst-omnikey/commit/080c1d8))
+
+
+
 ## [0.7.0](https://github.com/danielpza/dst-omnikey/compare/v0.6.0...v0.7.0) (2020-05-02)
 
 
