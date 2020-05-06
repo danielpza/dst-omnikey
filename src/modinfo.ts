@@ -34,6 +34,7 @@ var configuration_options = [
     "Use hambat",
     "Prioritize hambat when choosing best weapon"
   ),
+  BooleanOption("SHOW_EQUIP", false, "Show equipment buttons"),
   Keybind("WEAPON", "g", "Weapon Key"),
   Keybind("LIGHT", "t", "Light"),
   Keybind("ARMOR", "c", "Armor"),

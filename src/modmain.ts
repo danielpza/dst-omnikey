@@ -13,6 +13,7 @@ import {
 } from "./scripts/omnikey/values";
 import { SingleThread, getBestItem } from "./scripts/omnikey/utils";
 
+const showEquipButtons = GetModConfigData("SHOW_EQUIP");
 const showButtons = GetModConfigData("SHOW_BUTTONS");
 const showKeybinding = GetModConfigData("SHOW_KEYBINDING");
 const addKeybindings = GetModConfigData("BIND_KEYS");
@@ -57,15 +58,30 @@ const hambatOrWeaponValue = (item: PrefabCopy) =>
   item.prefab === "hambat" ? 10000 : weaponValue(item);
 
 function setupGearKeys() {
-  for (const [key, fn] of [
-    [GetModConfigData("WEAPON"), useHambat ? hambatOrWeaponValue : weaponValue],
-    [GetModConfigData("HELMET"), armorHeadValue],
-    [GetModConfigData("ARMOR"), armorBodyValue],
-    [GetModConfigData("LIGHT"), lightValue],
+  let index = 0;
+  for (const [key, fn, image] of [
+    [
+      GetModConfigData("WEAPON"),
+      useHambat ? hambatOrWeaponValue : weaponValue,
+      "spear",
+    ],
+    [GetModConfigData("HELMET"), armorHeadValue, "footballhat"],
+    [GetModConfigData("ARMOR"), armorBodyValue, "armorwood"],
+    [GetModConfigData("LIGHT"), lightValue, "torch"],
   ]) {
-    GLOBAL.TheInput.AddKeyUpHandler(key, () => {
+    const start = () => {
       if (isReady()) ensureEquipped(fn, true);
-    });
+    };
+    if (showEquipButtons) {
+      addButton(inventorybar, {
+        image: image || DEFAULT_IMAGE,
+        position: index,
+        text: String.fromCharCode(key).toUpperCase(),
+        onClick: start,
+      });
+      index++;
+    }
+    GLOBAL.TheInput.AddKeyUpHandler(key, start);
   }
 }
 
