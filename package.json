@@ -24,7 +24,7 @@
     "prebuild": "rm -rf lib",
     "build": "tstl -p tsconfig.json",
     "postbuild": "node post-build.js",
-    "pack": "npm run build && zip -rXj OmniKey.zip lib/*",
+    "pack": "npm run build && rm -rf OmniKey.zip && zip -rXj OmniKey.zip README.md CHANGELOG.md lib/*",
     "prepare": "npm run build",
     "release": "standard-version"
   },
