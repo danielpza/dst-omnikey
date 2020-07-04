@@ -13,21 +13,18 @@ import {
 } from "./scripts/omnikey/values";
 import { SingleThread, getBestItem } from "./scripts/omnikey/utils";
 
-const showEquipButtons = GetModConfigData("SHOW_EQUIP");
-const showButtons = GetModConfigData("SHOW_BUTTONS");
-const showKeybinding = GetModConfigData("SHOW_KEYBINDING");
-const addKeybindings = GetModConfigData("BIND_KEYS");
-const workFast = GetModConfigData("WORK_FAST");
-const useHambat = GetModConfigData("USE_HAMBAT");
-
-type Klass = (...params: any[]) => any;
+const showEquipButtons = GetModConfigData("SHOW_EQUIP") as boolean;
+const showButtons = GetModConfigData("SHOW_BUTTONS") as boolean;
+const showKeybinding = GetModConfigData("SHOW_KEYBINDING") as boolean;
+const addKeybindings = GetModConfigData("BIND_KEYS") as boolean;
+const workFast = GetModConfigData("WORK_FAST") as boolean;
+const useHambat = GetModConfigData("USE_HAMBAT") as boolean;
 
 const IMAGE_SIZE = 68; // or 63
 const VERTICAL_OFFSET = 160;
-// const Widget = GLOBAL.require("widgets/widget");
-const Image = GLOBAL.require("widgets/image") as Klass;
-const ImageButton = GLOBAL.require("widgets/imagebutton") as Klass;
-const Button = GLOBAL.require("widgets/button") as Klass;
+const Image = GLOBAL.require("widgets/image");
+const ImageButton = GLOBAL.require("widgets/imagebutton");
+const Button = GLOBAL.require("widgets/button");
 const DEFAULT_IMAGE = "cutgrass";
 
 const ACTION_DISTANCE = 40;
@@ -284,7 +281,7 @@ function ensureEquipped(fn: (item: PrefabCopy) => number, unequip = false) {
 }
 
 function addButton(
-  parent: any,
+  parent: Module.Widget,
   {
     position,
     text,
@@ -312,7 +309,7 @@ function addButton(
 
   if (showKeybinding && addKeybindings) {
     const letter = button.AddChild(Button());
-    letter.SetText(text);
+    letter.SetText(text || "");
     letter.SetPosition(5, 0, 0);
     letter.SetFont("stint-ucr");
     letter.SetTextColour(1, 1, 1, 1);
