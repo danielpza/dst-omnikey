@@ -1,17 +1,18 @@
 /** @noSelfInFile **/
 
 import { getPrefabCopy } from "./scripts/omnikey/cache";
+import { getBestItem, SingleThread } from "./scripts/omnikey/utils";
 import {
+  armorBodyValue,
+  armorHeadValue,
   axeValue,
-  pickaxeValue,
-  weaponValue,
-  lightValue,
   caneValue,
   clothValue,
-  armorHeadValue,
-  armorBodyValue,
+  lightValue,
+  pickaxeValue,
+  weaponValue,
 } from "./scripts/omnikey/values";
-import { SingleThread, getBestItem } from "./scripts/omnikey/utils";
+import { InventoryButton } from "./scripts/omnikey/widget";
 
 const showEquipButtons = GetModConfigData("SHOW_EQUIP") as boolean;
 const showButtons = GetModConfigData("SHOW_BUTTONS") as boolean;
@@ -44,7 +45,6 @@ interface TaskConfig {
 }
 
 let pc = (null as any) as Prefabs.Player["components"]["playercontroller"];
-let inventorybar = null as any;
 
 function main() {
   setupTaskKeys();
@@ -70,7 +70,7 @@ function setupGearKeys() {
       if (isReady()) ensureEquipped(fn, true);
     };
     if (showEquipButtons) {
-      addButton(inventorybar, {
+      addButton({
         image: image || DEFAULT_IMAGE,
         position: index,
         text: String.fromCharCode(key).toUpperCase(),
@@ -142,7 +142,7 @@ function setupTaskKeys() {
         });
     };
     if (showButtons) {
-      addButton(inventorybar, {
+      addButton({
         image: data.image || DEFAULT_IMAGE,
         position: 10 + index,
         text: String.fromCharCode(key).toUpperCase(),
@@ -280,46 +280,8 @@ function ensureEquipped(fn: (item: PrefabCopy) => number, unequip = false) {
   return true;
 }
 
-function addButton(
-  parent: Module.Widget,
-  {
-    position,
-    text,
-    onClick,
-    image,
-  }: {
-    image: string;
-    position: number;
-    text?: string;
-    onClick: () => void;
-  }
-) {
-  const button = parent.AddChild(ImageButton("images/hud.xml", "inv_slot.tex"));
-  const x = IMAGE_SIZE * (-10 + position);
-  button.SetPosition(x, VERTICAL_OFFSET, 0);
-  button.SetOnClick(onClick);
-  button.MoveToFront();
-
-  const icon = button.AddChild(
-    Image(GLOBAL.GetInventoryItemAtlas(image + ".tex"), `${image}.tex`)
-  );
-  // GLOBAL.EQUIPSLOTS
-  icon.SetScale(0.8, 0.8, 0.8);
-  icon.MoveToFront();
-
-  if (showKeybinding && addKeybindings) {
-    const letter = button.AddChild(Button());
-    letter.SetText(text || "");
-    letter.SetPosition(5, 0, 0);
-    letter.SetFont("stint-ucr");
-    letter.SetTextColour(1, 1, 1, 1);
-    letter.SetTextFocusColour(1, 1, 1, 1);
-    letter.SetTextSize(50);
-    letter.MoveToFront();
-  }
-}
-
 let ready = false;
+let inventorybar = (null as any) as Module.Widget;
 
 AddClassPostConstruct("widgets/inventorybar", function (this: any) {
   inventorybar = this;
@@ -332,3 +294,13 @@ AddComponentPostInit("playercontroller", function (playercontrol: any) {
   if (ready) main();
   ready = true;
 });
+
+function addButton(props: {
+  image: string;
+  position: number;
+  text?: string;
+  onClick: () => void;
+}) {
+  props.text = showKeybinding && addKeybindings ? props.text! : undefined;
+  inventorybar.AddChild(InventoryButton(props));
+}

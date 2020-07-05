@@ -31,7 +31,7 @@ updateFile(
     content.replace(new RegExp("scripts.omnikey.", "g"), "omnikey/")
 );
 
-["cache", "utils", "values"].forEach((name) => {
+["widget", "cache", "utils", "values"].forEach((name) => {
   updateFile(
     resolve(__dirname, outDir, `scripts/omnikey/${name}.lua`),
     (content) =>
