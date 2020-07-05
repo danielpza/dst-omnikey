@@ -5,6 +5,9 @@ import { getPrefabCopy } from "./cache";
 
 export class SingleThread {
   thread: GLOBAL.Thread | null = null;
+  running() {
+    return !!this.thread;
+  }
   start(fn: () => void) {
     this.stop();
     this.thread = GLOBAL.StartThread(fn);
@@ -26,7 +29,7 @@ export function getBestItem(
   const equippedItems = [
     GLOBAL.ThePlayer.replica.inventory.GetEquippedItem(GLOBAL.EQUIPSLOTS.BODY),
     GLOBAL.ThePlayer.replica.inventory.GetEquippedItem(GLOBAL.EQUIPSLOTS.HANDS),
-    GLOBAL.ThePlayer.replica.inventory.GetEquippedItem(GLOBAL.EQUIPSLOTS.HEAD)
+    GLOBAL.ThePlayer.replica.inventory.GetEquippedItem(GLOBAL.EQUIPSLOTS.HEAD),
   ] as Record<number, Prefabs.Item | undefined>;
   const backpack = GLOBAL.ThePlayer.replica.inventory.GetOverflowContainer();
   const backpackItems =
@@ -40,7 +43,7 @@ export function getBestItem(
       getBestItemInList(items, getValue),
       getBestItemInList(equips, getValue),
       getBestItemInList(backpackItems, getValue),
-      activeItem
+      activeItem,
     ],
     getValue
   );

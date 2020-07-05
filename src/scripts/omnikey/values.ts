@@ -32,14 +32,14 @@ export function armorBodyValue(item: PrefabCopy) {
 
 export function lightValue(item: PrefabCopy) {
   const index = [
-    "gears_hat_goggles",
-    "molehat",
-    "bottlelantern",
-    "lantern",
-    "minerhat",
-    "tarlamp",
+    "torch",
     "lighter",
-    "torch"
+    "tarlamp",
+    "minerhat",
+    "lantern",
+    "bottlelantern",
+    "molehat",
+    "gears_hat_goggles",
   ].indexOf(item.prefab);
   if (index === -1) return 0;
   return 1 / index;

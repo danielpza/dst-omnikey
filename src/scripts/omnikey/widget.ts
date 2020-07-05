@@ -11,7 +11,7 @@ export function InventoryButton({
   text,
   onClick,
 }: {
-  image: string;
+  image?: string;
   position: number;
   text?: string;
   onClick: () => void;
@@ -22,11 +22,13 @@ export function InventoryButton({
   button.SetOnClick(onClick);
   button.MoveToFront();
 
-  const icon = button.AddChild(
-    Image(GLOBAL.GetInventoryItemAtlas(image + ".tex"), `${image}.tex`)
-  );
-  icon.SetScale(0.8, 0.8, 0.8);
-  icon.MoveToFront();
+  if (image) {
+    const icon = button.AddChild(
+      Image(GLOBAL.GetInventoryItemAtlas(image + ".tex"), `${image}.tex`)
+    );
+    icon.SetScale(0.8, 0.8, 0.8);
+    icon.MoveToFront();
+  }
 
   if (text) {
     const letter = button.AddChild(Button());

@@ -21,11 +21,6 @@ const addKeybindings = GetModConfigData("BIND_KEYS") as boolean;
 const workFast = GetModConfigData("WORK_FAST") as boolean;
 const useHambat = GetModConfigData("USE_HAMBAT") as boolean;
 
-const IMAGE_SIZE = 68; // or 63
-const VERTICAL_OFFSET = 160;
-const Image = GLOBAL.require("widgets/image");
-const ImageButton = GLOBAL.require("widgets/imagebutton");
-const Button = GLOBAL.require("widgets/button");
 const DEFAULT_IMAGE = "cutgrass";
 
 const ACTION_DISTANCE = 40;
