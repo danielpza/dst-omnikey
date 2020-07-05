@@ -12,6 +12,7 @@ Keybindings can be changed in the configuration:
 | G           | Equip best weapon by damage |
 | C           |            Equip best armor |
 | V           |           Equip best helmet |
+| T           |          Equip light source |
 | L           |         Start picking items |
 | K           |            Start harvesting |
 | J           |           Starting chopping |
