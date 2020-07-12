@@ -62,10 +62,10 @@ function getBestItemInList(
       if (
         copy.components.finiteuses &&
         item.replica.inventoryitem &&
-        item.replica.inventoryitem.classified.percentused
+        item.replica.inventoryitem.classified?.percentused
       )
         copy.components.finiteuses.current =
-          (item.replica.inventoryitem.classified.percentused.value() *
+          (item.replica.inventoryitem.classified?.percentused.value() *
             copy.components.finiteuses.total) /
           100;
       const value = getValue(copy);
