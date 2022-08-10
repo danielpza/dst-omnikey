@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.8.4](https://github.com/danielpza/dst-omnikey/compare/v0.8.2...v0.8.4) (2022-08-10)
+
+
+### Bug Fixes
+
+* update types ([de934bc](https://github.com/danielpza/dst-omnikey/commit/de934bcdf23d5295a160f3171748ffa5781db402))
+* update types ([3d0c00c](https://github.com/danielpza/dst-omnikey/commit/3d0c00cf69274f362577198605002df18028c23f))
+
 ### [0.8.2](https://github.com/danielpza/dst-omnikey/compare/v0.8.1...v0.8.2) (2020-07-12)
 
 
