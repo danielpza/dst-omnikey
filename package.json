@@ -29,10 +29,12 @@
     "release": "standard-version"
   },
   "devDependencies": {
-    "ds-types": "file:../ds-types",
-    "standard-version": "^6.0.1",
+    "ds-types": "github:danielpza/ds-types",
+    "prettier": "^2.7.1",
+    "standard-version": "^9.5.0",
     "tsc-watch": "^4.0.0",
-    "typescript": "^3.7.3",
-    "typescript-to-lua": "^0.24.0"
+    "typescript": "^4.7.4",
+    "typescript-to-lua": "^1.8.1",
+    "typescript-tstl-plugin": "^0.3.2"
   }
 }

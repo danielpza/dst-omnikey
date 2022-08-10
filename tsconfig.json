@@ -1,15 +1,17 @@
 {
   "compilerOptions": {
+    "plugins": [{ "name": "typescript-tstl-plugin" }],
     "rootDir": "src",
     "outDir": "lib",
     "types": ["ds-types"],
+    "lib": ["ES2020"],
     "strict": true,
-    "lib": ["esnext"],
-    "target": "esnext"
+    "target": "ES2020"
   },
-  "exclude": ["transformer"],
+  "include": ["src"],
   "tstl": {
     "luaTarget": "5.1",
-    "luaLibImport": "inline"
+    "luaLibImport": "inline",
+    "noImplicitSelf": true
   }
 }

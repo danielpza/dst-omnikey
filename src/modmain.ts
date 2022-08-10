@@ -1,5 +1,3 @@
-/** @noSelfInFile **/
-
 import { getPrefabCopy } from "./scripts/omnikey/cache";
 import { getBestItem, SingleThread } from "./scripts/omnikey/utils";
 import {
@@ -39,7 +37,7 @@ interface TaskConfig {
   exclude?: string[];
 }
 
-let pc = (null as any) as Prefabs.Player["components"]["playercontroller"];
+let pc = null as any as Prefabs.Player["components"]["playercontroller"];
 
 function main() {
   setupTaskKeys();
@@ -52,11 +50,7 @@ const hambatOrWeaponValue = (item: PrefabCopy) =>
 function setupGearKeys() {
   let index = 0;
   for (const [key, fn, image] of [
-    [
-      GetModConfigData("WEAPON"),
-      useHambat ? hambatOrWeaponValue : weaponValue,
-      "spear",
-    ],
+    [GetModConfigData("WEAPON"), useHambat ? hambatOrWeaponValue : weaponValue, "spear"],
     [GetModConfigData("HELMET"), armorHeadValue, "footballhat"],
     [GetModConfigData("ARMOR"), armorBodyValue, "armorwood"],
     [GetModConfigData("LIGHT"), lightValue, "torch"],
@@ -89,8 +83,7 @@ function setupTaskKeys() {
       action: GLOBAL.ACTIONS.PICKUP,
       tags: ["_inventoryitem"],
       filter: (item: Prefabs.Item) =>
-        item.replica.inventoryitem &&
-        item.replica.inventoryitem.CanBePickedUp(),
+        item.replica.inventoryitem && item.replica.inventoryitem.CanBePickedUp(),
       image: "cutgrass",
     },
     chop: {
@@ -178,9 +171,7 @@ function doAction(action: any) {
   if (ctrl === GLOBAL.CONTROL_PRIMARY) {
     const target = action.target || null;
     const position =
-      action.GetActionPoint() ||
-      (target && target.GetPosition()) ||
-      player.GetPosition();
+      action.GetActionPoint() || (target && target.GetPosition()) || player.GetPosition();
 
     GLOBAL.SendRPCToServer(
       GLOBAL.RPC.LeftClick,
@@ -217,22 +208,8 @@ function tryMakeRecipes(recipes: string[]): boolean {
   return true;
 }
 
-function doThreadAction({
-  action,
-  tags,
-  filter,
-  faster,
-  equip,
-  recipes,
-  exclude,
-}: TaskConfig) {
-  const target = GLOBAL.FindEntity(
-    GLOBAL.ThePlayer,
-    ACTION_DISTANCE,
-    filter,
-    tags,
-    exclude
-  );
+function doThreadAction({ action, tags, filter, faster, equip, recipes, exclude }: TaskConfig) {
+  const target = GLOBAL.FindEntity(GLOBAL.ThePlayer, ACTION_DISTANCE, filter, tags, exclude);
   if (!target) return false;
   if (equip) {
     if (!ensureEquipped(equip)) {
@@ -262,12 +239,10 @@ function ensureEquipped(fn: (item: PrefabCopy) => number, unequip = false) {
   const equipped = GLOBAL.ThePlayer.replica.inventory.GetEquippedItem(
     copy.components.equippable.equipslot
   );
-  if (equipped !== item)
-    GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(item);
+  if (equipped !== item) GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(item);
   else if (unequip)
     if (copy.components.equippable.equipslot === GLOBAL.EQUIPSLOTS.HANDS)
-      ensureEquipped(caneValue) ||
-        GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(item);
+      ensureEquipped(caneValue) || GLOBAL.ThePlayer.replica.inventory.UseItemFromInvTile(item);
     else
       ensureEquipped((item: PrefabCopy) =>
         clothValue(item, copy.components.equippable!.equipslot)
@@ -276,7 +251,7 @@ function ensureEquipped(fn: (item: PrefabCopy) => number, unequip = false) {
 }
 
 let ready = false;
-let inventorybar = (null as any) as Module.Widget;
+let inventorybar = null as any as Module.Widget;
 
 AddClassPostConstruct("widgets/inventorybar", function (this: any) {
   inventorybar = this;
@@ -294,7 +269,7 @@ function addButton(props: {
   image: string;
   position: number;
   text?: string;
-  onClick: () => void;
+  onClick: (this: void) => void;
 }) {
   props.text = showKeybinding && addKeybindings ? props.text! : undefined;
   inventorybar.AddChild(InventoryButton(props));

@@ -14,7 +14,7 @@ export function InventoryButton({
   image?: string;
   position: number;
   text?: string;
-  onClick: () => void;
+  onClick: (this: void) => void;
 }) {
   const button = ImageButton("images/hud.xml", "inv_slot.tex");
   const x = IMAGE_SIZE * (-10 + position);

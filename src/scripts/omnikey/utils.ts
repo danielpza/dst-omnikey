@@ -1,6 +1,4 @@
-/** @noSelfInFile **/
-
-import { PrefabCopy } from "../../modmain";
+import type { PrefabCopy } from "../../modmain";
 import { getPrefabCopy } from "./cache";
 
 export class SingleThread {
@@ -20,9 +18,7 @@ export class SingleThread {
   }
 }
 
-export function getBestItem(
-  getValue: (item: PrefabCopy) => number
-): Prefabs.Item | undefined {
+export function getBestItem(getValue: (item: PrefabCopy) => number): Prefabs.Item | undefined {
   const items = GLOBAL.ThePlayer.replica.inventory.GetItems();
   const equips = GLOBAL.ThePlayer.replica.inventory.GetEquips();
   const activeItem = GLOBAL.ThePlayer.replica.inventory.GetActiveItem();
@@ -33,9 +29,7 @@ export function getBestItem(
   ] as Record<number, Prefabs.Item | undefined>;
   const backpack = GLOBAL.ThePlayer.replica.inventory.GetOverflowContainer();
   const backpackItems =
-    (backpack &&
-      backpack.inst.replica.container &&
-      backpack.inst.replica.container.GetItems()) ||
+    (backpack && backpack.inst.replica.container && backpack.inst.replica.container.GetItems()) ||
     [];
   return getBestItemInList(
     [
