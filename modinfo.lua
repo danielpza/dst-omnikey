@@ -1,5 +1,4 @@
----@diagnostic disable:lowercase-global
-
+---@diagnostic disable:lowercase-global, assign-type-mismatch
 local keys, dividers, boolOptions
 
 local function GenerateOptions()
