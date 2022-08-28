@@ -5,23 +5,32 @@ GLOBAL.require("debugkeys")
 
 ---@module 'scripts.omnikey.values'
 local values = require("omnikey/values")
+---@module 'scripts.omnikey.widgets'
+local widgets = require("omnikey/widgets")
+
+local DEFAULT_IMAGE = "cutgrass"
 
 local EQUIP_KEYS = {
 	{
 		key = GetModConfigData("WEAPON"),
 		comparator = values.weaponValue,
+		image = "spear",
 	},
+
 	{
-		key = GetModConfigData("LIGHT"),
-		comparator = values.lightValue,
+		key = GetModConfigData("HELMET"),
+		comparator = values.armorValue(GLOBAL.EQUIPSLOTS.HEAD),
+		image = "footballhat",
 	},
 	{
 		key = GetModConfigData("ARMOR"),
 		comparator = values.armorValue(GLOBAL.EQUIPSLOTS.BODY),
+		image = "armorwood",
 	},
 	{
-		key = GetModConfigData("HELMET"),
-		comparator = values.armorValue(GLOBAL.EQUIPSLOTS.HEAD),
+		key = GetModConfigData("LIGHT"),
+		comparator = values.lightValue,
+		image = "torch",
 	},
 }
 
@@ -112,10 +121,21 @@ local function EquipUnequipItem(comparator)
 	end
 end
 
-AddComponentPostInit("playercontroller", function()
-	for _, action in ipairs(EQUIP_KEYS) do
-		GLOBAL.TheInput:AddKeyUpHandler(action.key, function()
+AddClassPostConstruct("widgets/inventorybar", function(self)
+	local inventorybar = self
+
+	for index, action in ipairs(EQUIP_KEYS) do
+		local function doit()
 			EquipUnequipItem(action.comparator)
-		end)
+		end
+
+		GLOBAL.TheInput:AddKeyUpHandler(action.key, doit)
+
+		inventorybar:AddChild(widgets.InventoryButton({
+			image = action.image or DEFAULT_IMAGE,
+			position = index,
+			text = string.upper(string.char(action.key)),
+			onClick = doit,
+		}))
 	end
 end)
