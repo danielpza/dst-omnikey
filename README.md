@@ -22,4 +22,9 @@ Find the latest version on steam workshop
 
 ## Acknowledgment
 
+Took inspiration and code from a lot of excelent mods, too many to remember or list them all:
+
+- [Item Info](https://steamcommunity.com/sharedfiles/filedetails/?id=836583293)
+- [Fast Equipment](https://steamcommunity.com/sharedfiles/filedetails/?id=1180681495)
+
 Used this awesome language server for lua https://github.com/sumneko/lua-language-server
