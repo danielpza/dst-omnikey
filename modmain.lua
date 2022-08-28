@@ -58,15 +58,34 @@ local function GetBestItemInInventory(comp)
 end
 
 AddComponentPostInit("playercontroller", function()
+	---@param fn fun(item: ds.entity): number
+	local function useMastersimPrefab(fn)
+		---@param item ds.entity
+		return function(item)
+			return WithMastersimPrefab(item.prefab, fn)
+		end
+	end
 	local keys = {
 		{
-			key = "k",
-			comparator = values.toolValue(GLOBAL.ACTIONS.CHOP),
+			key = GetModConfigData("WEAPON"),
+			comparator = useMastersimPrefab(values.weaponValue),
+		},
+		{
+			key = GetModConfigData("LIGHT"),
+			comparator = useMastersimPrefab(values.lightValue),
+		},
+		{
+			key = GetModConfigData("ARMOR"),
+			comparator = useMastersimPrefab(values.armorValue(GLOBAL.EQUIPSLOTS.BODY)),
+		},
+		{
+			key = GetModConfigData("HELMET"),
+			comparator = useMastersimPrefab(values.armorValue(GLOBAL.EQUIPSLOTS.HEAD)),
 		},
 	}
 
 	for _, action in ipairs(keys) do
-		GLOBAL.TheInput:AddKeyUpHandler(string.byte(action.key), function()
+		GLOBAL.TheInput:AddKeyUpHandler(action.key, function()
 			local item = GetBestItemInInventory(action.comparator)
 			if item == nil or not item.replica.equippable then
 				return
