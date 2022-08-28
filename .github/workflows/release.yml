@@ -1,6 +1,6 @@
 on: push
 
-name: release
+name: Bump Version
 
 jobs:
   release:
@@ -12,14 +12,13 @@ jobs:
       - uses: paulhatch/semantic-version@v4.0.2
         id: semantic-version
         with:
-          # The prefix to use to identify tags
           tag_prefix: "v"
           major_pattern: "!:"
           minor_pattern: "feat:"
           format: "${major}.${minor}.${patch}-prerelease${increment}"
       - name: Update AUTHORS
         run: |
-          git log --format='%aN <%aE>%n%cN <%cE>' | sort -u > AUTHORS
+          sed 's/version = ".*\..*\..*"/version = "${{ steps.semantic-version.outputs.version_tag }}"/' modinfo.lua -i
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
