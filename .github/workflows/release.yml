@@ -17,7 +17,6 @@ jobs:
           major_pattern: "!:"
           minor_pattern: "feat:"
           format: "${major}.${minor}.${patch}-prerelease${increment}"
-          bump_each_commit: true
       - name: Update AUTHORS
         run: |
           git log --format='%aN <%aE>%n%cN <%cE>' | sort -u > AUTHORS
