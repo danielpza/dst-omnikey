@@ -1,6 +1,7 @@
 on: push
 
 name: releases
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -8,15 +9,25 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      # - uses: paulhatch/semantic-version@v4.0.2
-      #   id: semantic-version
-      #   with:
-      #     # The prefix to use to identify tags
-      #     tag_prefix: "v"
-      #     major_pattern: "!:"
-      #     minor_pattern: "feat:"
-      #     format: "${major}.${minor}.${patch}-prerelease${increment}"
-      #     bump_each_commit: true
+      - uses: paulhatch/semantic-version@v4.0.2
+        id: semantic-version
+        with:
+          # The prefix to use to identify tags
+          tag_prefix: "v"
+          major_pattern: "!:"
+          minor_pattern: "feat:"
+          format: "${major}.${minor}.${patch}-prerelease${increment}"
+          bump_each_commit: true
+      - name: Update AUTHORS
+        run: |
+          git log --format='%aN <%aE>%n%cN <%cE>' | sort -u > AUTHORS
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: ${{ steps.semantic-version.outputs.version_tag }}
+          title: Bump version
+          body: Credit new contributors by updating AUTHORS
+          branch: github-action-bump-version
       # - name: Create Tag
       #   run: |
       #     git config user.name "GitHub Actions"
