@@ -1,4 +1,4 @@
-# OmniKey
+# OmniKey [![Steam Downloads](https://img.shields.io/steam/downloads/2082207629?color=blue&label=steam%20downloads)](https://steamcommunity.com/sharedfiles/filedetails/?id=2082207629) [![GitHub issues](https://img.shields.io/github/issues-raw/danielpza/dst-omnikey)](https://github.com/danielpza/dst-omnikey/issues)
 
 A Don't Starve Together Mod. Add keybindings to use with tools, weapons, armor and much more.
 
