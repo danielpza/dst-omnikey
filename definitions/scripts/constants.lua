@@ -490,7 +490,7 @@ TILE_SCALE = 4
 
 -- MAXITEMSLOTS = 15
 
----@enum ds.EquipSlot
+---@enum ds.equipslot
 EQUIPSLOTS = {
 	HANDS = "hands",
 	HEAD = "head",

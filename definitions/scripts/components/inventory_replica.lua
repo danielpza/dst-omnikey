@@ -3,7 +3,7 @@
 ---@class ds.replicas.inventory
 local Inventory = {}
 
----@param slot ds.EquipSlot
+---@param slot ds.equipslot
 ---@return ds.entity | nil
 function Inventory:GetEquippedItem(slot) end
 
@@ -13,7 +13,7 @@ function Inventory:GetItems() end
 ---@return ds.entity | nil
 function Inventory:GetActiveItem() end
 
----@return { [ds.EquipSlot]: ds.entity }
+---@return { [ds.equipslot]: ds.entity }
 function Inventory:GetEquips() end
 
 return Inventory

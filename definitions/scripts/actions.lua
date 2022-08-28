@@ -1,8 +1,8 @@
 ---@meta
 
----@class Action
----@overload fun(data: any): Action
-Action = {
+---@class ds.action
+---@overload fun(data: any): ds.action
+local Action = {
 	instant = false,
 	rmb = false,
 	canforce = false,

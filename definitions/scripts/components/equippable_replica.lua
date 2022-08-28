@@ -3,7 +3,7 @@
 ---@class ds.replicas.equippable
 local Equippable = {}
 
----@return ds.EquipSlot
+---@return ds.equipslot
 function Equippable:EquipSlot() end
 
 ---@return boolean
