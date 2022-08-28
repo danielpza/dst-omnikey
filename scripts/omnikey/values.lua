@@ -113,4 +113,9 @@ function exports.caneValue(item)
 		or 0
 end
 
+---@param item ds.entity
+function exports.weaponValuePrioritizeHambat(item)
+	return item.prefab == "hambat" and 10000 or exports.weaponValue(item)
+end
+
 return exports

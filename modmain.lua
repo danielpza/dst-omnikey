@@ -10,10 +10,15 @@ local widgets = require("omnikey/widgets")
 
 local DEFAULT_IMAGE = "cutgrass"
 
+local CONFIG_BIND_KEYS = GetModConfigData("BIND_KEYS")
+local CONFIG_SHOW_KEYBINDING = GetModConfigData("SHOW_KEYBINDING")
+local CONFIG_USE_HAMBAT = GetModConfigData("USE_HAMBAT")
+local CONFIG_SHOW_EQUIP = GetModConfigData("SHOW_EQUIP")
+
 local EQUIP_KEYS = {
 	{
 		key = GetModConfigData("WEAPON"),
-		comparator = values.weaponValue,
+		comparator = CONFIG_USE_HAMBAT and values.weaponValuePrioritizeHambat or values.weaponValue,
 		image = "spear",
 	},
 
@@ -129,13 +134,17 @@ AddClassPostConstruct("widgets/inventorybar", function(self)
 			EquipUnequipItem(action.comparator)
 		end
 
-		GLOBAL.TheInput:AddKeyUpHandler(action.key, doit)
+		if CONFIG_BIND_KEYS then
+			GLOBAL.TheInput:AddKeyUpHandler(action.key, doit)
+		end
 
-		inventorybar:AddChild(widgets.InventoryButton({
-			image = action.image or DEFAULT_IMAGE,
-			position = index,
-			text = string.upper(string.char(action.key)),
-			onClick = doit,
-		}))
+		if CONFIG_SHOW_EQUIP then
+			inventorybar:AddChild(widgets.InventoryButton({
+				image = action.image or DEFAULT_IMAGE,
+				position = index,
+				text = CONFIG_SHOW_KEYBINDING and string.upper(string.char(action.key)) or nil,
+				onClick = doit,
+			}))
+		end
 	end
 end)
