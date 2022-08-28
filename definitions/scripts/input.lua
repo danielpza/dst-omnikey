@@ -99,10 +99,10 @@ function Input:AddGestureHandler(gesture, fn) end
 
 -- Is for all the button devices (mouse, joystick (even the analog parts), keyboard as well, keyboard
 
----@return Vector3
+---@return ds.vector3
 function Input:GetScreenPosition() end
 
----@return Vector3
+---@return ds.vector3
 function Input:GetWorldPosition() end
 
 ---@return ds.entity[]
