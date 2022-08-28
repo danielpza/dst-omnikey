@@ -4,15 +4,15 @@
 ---@return any
 function GetModConfigData(modconfig) end
 
----@param class string
+---@param component string
 ---@param cb fun(component: any)
-function AddComponentPostInit(class, cb) end
+function AddComponentPostInit(component, cb) end
 
 ---@param class string
 ---@param cb fun(self: any)
 function AddClassPostConstruct(class, cb) end
 
----@class TheWorld
+---@class ds.theworld
 TheWorld = { ismastersim = false }
 
 ---@type ds.entity
