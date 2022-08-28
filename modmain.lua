@@ -3,6 +3,9 @@ GLOBAL.CHEATS_ENABLED = true
 GLOBAL.require("debugkeys")
 --
 
+---@module 'scripts.omnikey.values'
+local values = require("omnikey/values")
+
 ---@generic T
 ---@param prefab string
 ---@param fn fun(item: ds.entity): T
@@ -58,13 +61,7 @@ AddComponentPostInit("playercontroller", function()
 	local keys = {
 		{
 			key = "k",
-			---@param item ds.entity
-			comparator = function(item)
-				return WithMastersimPrefab(item.prefab, function(mastersimItem)
-					return mastersimItem.components.tool
-						and mastersimItem.components.tool:GetEffectiveness(GLOBAL.ACTIONS.CHOP)
-				end)
-			end,
+			comparator = values.toolValue(GLOBAL.ACTIONS.CHOP),
 		},
 	}
 
