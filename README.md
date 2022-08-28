@@ -1,11 +1,10 @@
 # OmniKey
 
 A Don't Starve Together Mod. Add keybindings to use with tools, weapons, armor and much more.
-Now including automatic actions like picking up items from the ground, harvesting, choping and mining.
 
-# Usage
+# Features
 
-Keybindings can be changed in the configuration:
+- keybindings to equip/unequip a common items
 
 | Default Key |                    Function |
 | :---------- | --------------------------: |
@@ -13,30 +12,14 @@ Keybindings can be changed in the configuration:
 | C           |            Equip best armor |
 | V           |           Equip best helmet |
 | T           |          Equip light source |
-| L           |         Start picking items |
-| K           |            Start harvesting |
-| J           |           Starting chopping |
-| O           |                Start mining |
 
-Also when unequiping the hand slot using the keybindings it automatically equips
-a cane if available, as well as insulating/dapper cloth for the body and head.
+- automatically equip cane when unequipping items from hand slot using the keybinding
+- automatically equip sanity/insulation items when unequipping body and head slots
 
 ## Installing
 
-Download latest release from [github](https://github.com/danielpza/dst-omnikey/releases/)
+Find the latest version on steam workshop
 
-## Building
+## Acknowledgment
 
-```sh
-$ npm run build
-```
-
-## Contributting
-
-Install nodejs and npm:
-
-```sh
-$ npm install
-$ ln -sr lib /path/to/dst/mods/folder # make link to mods folder
-$ npm run dev
-```
+Used this awesome language server for lua https://github.com/sumneko/lua-language-server
