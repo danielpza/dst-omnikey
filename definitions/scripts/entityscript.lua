@@ -1,56 +1,32 @@
----@class ToolComponent
----@field actions { [Action]: number }
-local ToolComponent = {}
----@param action Action
-function ToolComponent:GetEffectiveness(action) end
----@param action Action
-function ToolComponent:CanDoAction(action) end
+---@meta
 
----@class EquippableReplica
-local EquippableReplica = {}
----@return EquipSlot
-function EquippableReplica:EquipSlot() end
----@return boolean
-function EquippableReplica:IsEquipped() end
-
----@class InventoryReplica
-local InventoryReplica = {}
-
----@param slot EquipSlot
----@return Entity | nil
-function InventoryReplica:GetEquippedItem(slot) end
----@return Entity[]
-function InventoryReplica:GetItems() end
----@return Entity | nil
-function InventoryReplica:GetActiveItem() end
----@return { [EquipSlot]: Entity }
-function InventoryReplica:GetEquips() end
-
----@class Entity
----@overload fun(): Entity
-local Entity = {
+---@class ds.entity
+---@overload fun(): ds.entity
+local EntityScript = {
 	prefab = "",
 	components = {
 		weapon = nil,
-		---@type ToolComponent | nil
+		---@type ds.components.tool | nil
 		tool = nil,
 		armor = nil,
 	},
 	replica = {
-		---@type EquippableReplica | nil
+		---@type ds.replicas.equippable|nil
 		equippable = nil,
-		---@type InventoryReplica | nil
+		---@type ds.replicas.inventory|nil
 		inventory = nil,
 	},
 }
 
-function Entity:Remove() end
+EntityScript.replica.equippable:EquipSlot()
 
-function Entity:HasTag(tag) end
+function EntityScript:Remove() end
 
-function Entity:HasTags(tags) end
+function EntityScript:HasTag(tag) end
 
-function Entity:HasOneOfTags(tags) end
+function EntityScript:HasTags(tags) end
+
+function EntityScript:HasOneOfTags(tags) end
 
 --Can be used on clients
-function Entity:GetIsWet() end
+function EntityScript:GetIsWet() end

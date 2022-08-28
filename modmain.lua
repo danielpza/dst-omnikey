@@ -5,7 +5,7 @@ GLOBAL.require("debugkeys")
 
 ---@generic T
 ---@param prefab string
----@param fn fun(item: Entity): T
+---@param fn fun(item: ds.entity): T
 ---@return T
 local function WithMastersimPrefab(prefab, fn)
 	local isMasterSim = GLOBAL.TheWorld.ismastersim
@@ -17,7 +17,7 @@ local function WithMastersimPrefab(prefab, fn)
 	return result
 end
 
----@param fn fun(item: Entity)
+---@param fn fun(item: ds.entity)
 local function ForEachItemInInventory(fn)
 	for _, item in pairs(GLOBAL.ThePlayer.replica.inventory:GetItems()) do
 		fn(item)
@@ -39,8 +39,8 @@ local function ForEachItemInInventory(fn)
 	-- 	or {}
 end
 
----@param comp fun(item: Entity): number | nil
----@return (nil | Entity)
+---@param comp fun(item: ds.entity): number | nil
+---@return (nil | ds.entity)
 local function GetBestItemInInventory(comp)
 	local bestValue = 0
 	local bestItem = nil
@@ -58,7 +58,7 @@ AddComponentPostInit("playercontroller", function()
 	local keys = {
 		{
 			key = "k",
-			---@param item Entity
+			---@param item ds.entity
 			comparator = function(item)
 				return WithMastersimPrefab(item.prefab, function(mastersimItem)
 					return mastersimItem.components.tool

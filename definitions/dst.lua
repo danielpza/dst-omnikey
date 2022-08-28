@@ -12,18 +12,18 @@ function AddComponentPostInit(class, cb) end
 ---@param cb fun(self: any)
 function AddClassPostConstruct(class, cb) end
 
----@class Entity
+---@class ds.entity
 ---@field prefab string
 ---@field components {}
 
 ---@class TheWorld
 TheWorld = { ismastersim = false }
 
----@type Entity
+---@type ds.entity
 ThePlayer = {}
 
 ---@param prefab string
----@return Entity
+---@return ds.entity
 function SpawnPrefab(prefab) end
 
 ---@class GLOBAL

@@ -103,10 +103,10 @@ function Input:GetScreenPosition() end
 ---@return Vector3
 function Input:GetWorldPosition() end
 
----@return Entity[]
+---@return ds.entity[]
 function Input:GetAllEntitiesUnderMouse() end
 
----@return Entity | nil
+---@return ds.entity | nil
 function Input:GetWorldEntityUnderMouse() end
 
 -- function Input:EnableDebugToggle(enable) end
