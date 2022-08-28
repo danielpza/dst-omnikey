@@ -23,7 +23,7 @@ jobs:
           minor_pattern: "feat:"
           # A string to determine the format of the version output
           format: "${major}.${minor}.${patch}-prerelease${increment}"
-          bump_each_commit: false
+          bump_each_commit: true
       - name: Create Tag
         run: |
           git config user.name "GitHub Actions"
