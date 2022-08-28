@@ -13,6 +13,17 @@ function EquippableReplica:EquipSlot() end
 ---@return boolean
 function EquippableReplica:IsEquipped() end
 
+---@class InventoryReplica
+local InventoryReplica = {}
+
+---@param slot EquipSlot
+---@return Entity | nil
+function InventoryReplica:GetEquippedItem(slot) end
+---@return Entity[]
+function InventoryReplica:GetItems() end
+---@return Entity | nil
+function InventoryReplica:GetActiveItem() end
+
 ---@class Entity
 ---@overload fun(): Entity
 local Entity = {
@@ -26,6 +37,8 @@ local Entity = {
 	replica = {
 		---@type EquippableReplica | nil
 		equippable = nil,
+		---@type InventoryReplica | nil
+		inventory = nil,
 	},
 }
 

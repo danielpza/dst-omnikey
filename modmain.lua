@@ -19,20 +19,24 @@ end
 
 ---@param fn fun(item: Entity)
 local function ForEachItemInInventory(fn)
-	local items = GLOBAL.ThePlayer.replica.inventory:GetItems()
 	-- local equips = ThePlayer.replica.inventory:GetEquips()
-	-- local activeItem = ThePlayer.replica.inventory:GetActiveItem()
-	-- local equippedItems = {
-	-- 	ThePlayer.replica.inventory:GetEquippedItem(EQUIPSLOTS.BODY),
-	-- 	ThePlayer.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS),
-	-- 	ThePlayer.replica.inventory:GetEquippedItem(EQUIPSLOTS.HEAD),
-	-- }
 	-- local backpack = ThePlayer.replica.inventory:GetOverflowContainer()
 	-- local backpackItems = backpack and backpack.inst.replica.container and backpack.inst.replica.container:GetItems()
 	-- 	or {}
 
-	for _, item in pairs(items) do
+	for _, item in pairs(GLOBAL.ThePlayer.replica.inventory:GetItems()) do
 		fn(item)
+	end
+	for _, slot in pairs(GLOBAL.EQUIPSLOTS) do
+		local item = GLOBAL.ThePlayer.replica.inventory:GetEquippedItem(slot)
+		if item then
+			fn(item)
+		end
+	end
+
+	local activeitem = GLOBAL.ThePlayer.replica.inventory:GetActiveItem()
+	if activeitem then
+		fn(activeitem)
 	end
 end
 

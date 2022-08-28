@@ -30,6 +30,7 @@ function SpawnPrefab(prefab) end
 GLOBAL = {
 	CHEATS_ENABLED = false,
 	ACTIONS = ACTIONS,
+	EQUIPSLOTS = EQUIPSLOTS,
 
 	require = require,
 
