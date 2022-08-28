@@ -1,24 +1,18 @@
 ---@meta
 
----@class ds.entity
----@overload fun(): ds.entity
-local EntityScript = {
-	prefab = "",
-	components = {
-		weapon = nil,
-		---@type ds.components.tool | nil
-		tool = nil,
-		armor = nil,
-	},
-	replica = {
-		---@type ds.replicas.equippable|nil
-		equippable = nil,
-		---@type ds.replicas.inventory|nil
-		inventory = nil,
-	},
-}
+---@class ds.entity.components
+---@field tool? ds.components.tool|nil
 
-EntityScript.replica.equippable:EquipSlot()
+---@class ds.entity.replica
+---@field inventory? ds.replicas.inventory|nil
+---@field equippable? ds.replicas.equippable|nil
+
+---@class ds.entity
+---@field prefab string
+---@field components? ds.entity.components
+---@field replica? ds.entity.replica
+---@overload fun(): ds.entity
+local EntityScript = {}
 
 function EntityScript:Remove() end
 
