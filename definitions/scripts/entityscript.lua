@@ -23,6 +23,8 @@ function InventoryReplica:GetEquippedItem(slot) end
 function InventoryReplica:GetItems() end
 ---@return Entity | nil
 function InventoryReplica:GetActiveItem() end
+---@return { [EquipSlot]: Entity }
+function InventoryReplica:GetEquips() end
 
 ---@class Entity
 ---@overload fun(): Entity
