@@ -12,10 +12,6 @@ function AddComponentPostInit(class, cb) end
 ---@param cb fun(self: any)
 function AddClassPostConstruct(class, cb) end
 
----@class ds.entity
----@field prefab string
----@field components {}
-
 ---@class TheWorld
 TheWorld = { ismastersim = false }
 

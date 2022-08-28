@@ -1,3 +1,5 @@
+---@meta
+
 ---@class Task
 ---@overload fun(fn, id, param): Task
 local Task = { id = "", param = {}, fn = {} }

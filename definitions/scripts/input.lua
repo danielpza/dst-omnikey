@@ -1,3 +1,5 @@
+---@meta
+
 ---@class Input
 ---@overload fun(): Input
 local Input = {

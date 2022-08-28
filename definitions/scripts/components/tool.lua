@@ -1,3 +1,5 @@
+---@meta
+
 ---@class ds.components.tool
 ---@field actions { [Action]: number }
 local Tool = {}

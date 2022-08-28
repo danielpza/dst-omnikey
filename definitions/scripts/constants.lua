@@ -1,3 +1,5 @@
+---@meta
+
 PI = 3.14159
 PI2 = PI * 2
 DEGREES = PI / 180

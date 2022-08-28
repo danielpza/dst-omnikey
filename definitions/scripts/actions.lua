@@ -1,3 +1,5 @@
+---@meta
+
 ---@class Action
 ---@overload fun(data: any): Action
 Action = {

@@ -1,3 +1,5 @@
+---@meta
+
 ---@class ds.replicas.equippable
 local Equippable = {}
 
