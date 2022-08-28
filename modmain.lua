@@ -90,7 +90,26 @@ AddComponentPostInit("playercontroller", function()
 			if item == nil or not item.replica.equippable then
 				return
 			end
-			GLOBAL.ThePlayer.replica.inventory:UseItemFromInvTile(item)
+			if item.replica.equippable:IsEquipped() then
+				local equipslot = item.replica.equippable:EquipSlot()
+				if equipslot == GLOBAL.EQUIPSLOTS.HANDS then
+					local cane = GetBestItemInInventory(useMastersimPrefab(values.caneValue))
+					if cane then
+						GLOBAL.ThePlayer.replica.inventory:UseItemFromInvTile(cane)
+					else
+						GLOBAL.ThePlayer.replica.inventory:UseItemFromInvTile(item)
+					end
+				else
+					local clothEquip = GetBestItemInInventory(useMastersimPrefab(values.clothValue(equipslot)))
+					if clothEquip then
+						GLOBAL.ThePlayer.replica.inventory:UseItemFromInvTile(clothEquip)
+					else
+						GLOBAL.ThePlayer.replica.inventory:UseItemFromInvTile(item)
+					end
+				end
+			else
+				GLOBAL.ThePlayer.replica.inventory:UseItemFromInvTile(item)
+			end
 		end)
 	end
 end)
