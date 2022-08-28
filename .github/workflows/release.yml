@@ -15,14 +15,14 @@ jobs:
           tag_prefix: "v"
           major_pattern: "!:"
           minor_pattern: "feat:"
-          format: "${major}.${minor}.${patch}-prerelease${increment}"
-      - name: Update AUTHORS
+          format: "${major}.${minor}.${patch}"
+      - name: Update modinfo.lua version
         run: |
-          sed 's/version = ".*\..*\..*"/version = "${{ steps.semantic-version.outputs.version_tag }}"/' modinfo.lua -i
+          sed 's/version = ".*\..*\..*"/version = "${{ steps.semantic-version.outputs.version }}"/' modinfo.lua -i
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
-          commit-message: ${{ steps.semantic-version.outputs.version }}
+          commit-message: ${{ steps.semantic-version.outputs.version_tag }}
           title: Bump version
           body: Credit new contributors by updating AUTHORS
           branch: github-action-bump-version
