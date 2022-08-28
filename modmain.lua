@@ -68,11 +68,12 @@ local function ForEachItemInInventory(fn)
 		fn(activeitem)
 	end
 
-	-- TODO backpack items
-
-	-- local backpack = ThePlayer.replica.inventory:GetOverflowContainer()
-	-- local backpackItems = backpack and backpack.inst.replica.container and backpack.inst.replica.container:GetItems()
-	-- 	or {}
+	local backpack = GLOBAL.ThePlayer.replica.inventory:GetOverflowContainer()
+	if backpack and backpack.inst.replica.container then
+		for _, item in pairs(backpack.inst.replica.container:GetItems()) do
+			fn(item)
+		end
+	end
 end
 
 ---@param comp fun(item: ds.entity): number | nil
