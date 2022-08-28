@@ -1,0 +1,33 @@
+on:
+  push:
+    branches:
+      - new-master
+
+name: releases
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      # - uses: paulhatch/semantic-version@v4.0.2
+      #   id: semantic-version
+      #   with:
+      #     # The prefix to use to identify tags
+      #     tag_prefix: "v"
+      #     major_pattern: "!:"
+      #     minor_pattern: "feat:"
+      #     format: "${major}.${minor}.${patch}-prerelease${increment}"
+      #     bump_each_commit: true
+      # - name: Create Tag
+      #   run: |
+      #     git config user.name "GitHub Actions"
+      #     git config user.email "<>"
+      #     echo git tag -a v${{ steps.semantic-version.outputs.version }} -m ""
+      #     echo git push origin --tags
+      # - name: Release
+      #   uses: softprops/action-gh-release@v1
+      #   if: startsWith(github.ref, 'refs/tags/')
+      #   with:
+      #     tag_name: v${{ steps.semantic-version.outputs.version }}
