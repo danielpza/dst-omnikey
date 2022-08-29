@@ -40,7 +40,7 @@ end
 name = "Omnikey"
 description = "Add keybindings to use with tools, weapons, armor and much more."
 author = "danielpza"
-version = "0.9.0"
+version = "0.8.4"
 
 -- icon_atlas = "icon_atlas.xml"
 -- icon = "icon.tex"
