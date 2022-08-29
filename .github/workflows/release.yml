@@ -24,7 +24,6 @@ jobs:
         with:
           commit-message: ${{ steps.semantic-version.outputs.version_tag }}
           title: Bump version
-          body:
           branch: github-action-bump-version
       # - name: Create Tag
       #   run: |
