@@ -28,11 +28,11 @@ jobs:
       - name: "Generate changelog for release"
         run: |
           npm install --global conventional-changelog-cli@2.x.x
-          conventional-changelog-cli -p conventionalcommits -o release-changelog
+          conventional-changelog -p conventionalcommits -o release-changelog
       - name: Release
         uses: softprops/action-gh-release@v1
         # if: startsWith(github.head_commit.message, 'chore(release):')
         with:
-          tag_name: v${{ steps.get-version.outputs.version }}
+          tag_name: Release v${{ steps.get-version.outputs.version }}
           files: Omnikey.zip
           body_path: release-changelog
