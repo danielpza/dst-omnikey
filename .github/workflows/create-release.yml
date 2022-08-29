@@ -22,9 +22,14 @@ jobs:
       #   run: "npm install --global conventional-changelog-cli@2.x.x"
       - name: "Create Omnikey.zip"
         run: "zip -r Omnikey.zip README.md CHANGELOG.md modmain.lua modmain.info scripts/"
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        # if: startsWith(github.head_commit.message, 'chore(release):')
-        with:
-          tag_name: test-release
-          files: Omnikey.zip
+      - name: "Get package.json version"
+        id: "get-version"
+        run: echo "::set-output version=$(node -e "console.log(require(\"./package.json\").version)")"
+      - name: "Display version"
+        run: echo ${{ steps.get-version.outputs.version }}
+      # - name: Release
+      #   uses: softprops/action-gh-release@v1
+      #   # if: startsWith(github.head_commit.message, 'chore(release):')
+      #   with:
+      #     tag_name: test-release
+      #     files: Omnikey.zip
