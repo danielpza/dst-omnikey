@@ -22,7 +22,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
-          commit-message: ${{ steps.semantic-version.outputs.version_tag }}
+          commit-message: chore(release): ${{ steps.semantic-version.outputs.version_tag }}
           title: Bump version
           branch: github-action-bump-version
       # - name: Create Tag
