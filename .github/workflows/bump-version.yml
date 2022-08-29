@@ -9,6 +9,11 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: "Install conventional-changelog-cli"
+        run: "npm install --global conventional-changelog-cli@2.x.x"
       - uses: paulhatch/semantic-version@v4.0.2
         id: semantic-version
         with:
@@ -19,20 +24,11 @@ jobs:
       - name: Update modinfo.lua version
         run: |
           sed 's/version = ".*\..*\..*"/version = "${{ steps.semantic-version.outputs.version }}"/' modinfo.lua -i
+      - name: Update CHANGELOG.md
+        run: "conventional-changelog -p angular -i CHANGELOG.md -s"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
           commit-message: "chore(release): ${{ steps.semantic-version.outputs.version_tag }}"
           title: Bump version
           branch: github-action-bump-version
-      # - name: Create Tag
-      #   run: |
-      #     git config user.name "GitHub Actions"
-      #     git config user.email "<>"
-      #     echo git tag -a v${{ steps.semantic-version.outputs.version }} -m ""
-      #     echo git push origin --tags
-      # - name: Release
-      #   uses: softprops/action-gh-release@v1
-      #   if: startsWith(github.ref, 'refs/tags/')
-      #   with:
-      #     tag_name: v${{ steps.semantic-version.outputs.version }}
