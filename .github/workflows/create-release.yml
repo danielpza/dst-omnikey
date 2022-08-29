@@ -31,8 +31,8 @@ jobs:
           git push origin --tags
       - name: Release
         uses: softprops/action-gh-release@v1
-        # if: startsWith(github.head_commit.message, 'chore(release):')
         with:
+          name: Release v${{ steps.get-version.outputs.version }}
           tag_name: v${{ steps.get-version.outputs.version }}
           files: Omnikey.zip
           body_path: release-changelog
