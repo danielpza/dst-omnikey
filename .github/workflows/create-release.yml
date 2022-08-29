@@ -12,27 +12,28 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+          cache: "npm"
       - name: Create Tag
         run: |
           git config user.name "GitHub Actions"
           git config user.email "<>"
           echo git tag -a v${{ steps.semantic-version.outputs.version }} -m ""
           echo git push origin --tags
-      # - name: "Install conventional-changelog-cli"
-      #   run: "npm install --global conventional-changelog-cli@2.x.x"
       - name: "Create Omnikey.zip"
         run: "zip -r Omnikey.zip README.md CHANGELOG.md modmain.lua modmain.info scripts/"
       - name: "Get package.json version"
         id: "get-version"
         run: node -e "console.log(\"::set-output name=version::\" + require(\"./package.json\").version)"
-      # - name: "Get package.json version"
-      #   id: "get-version"
-      #   run: echo "::set-output name=version::$(node -e "console.log(require(\"./package.json\").version)")"
       - name: "Display version"
         run: echo ${{ steps.get-version.outputs.version }}
-      # - name: Release
-      #   uses: softprops/action-gh-release@v1
-      #   # if: startsWith(github.head_commit.message, 'chore(release):')
-      #   with:
-      #     tag_name: test-release
-      #     files: Omnikey.zip
+      - name: "Generate changelog for release"
+        run: |
+          npm install --global conventional-changelog-cli@2.x.x
+          conventional-changelog-cli -p conventionalcommits -o release-changelog
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        # if: startsWith(github.head_commit.message, 'chore(release):')
+        with:
+          tag_name: test-release
+          files: Omnikey.zip
+          body_path: release-changelog
