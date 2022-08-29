@@ -21,7 +21,7 @@ jobs:
       # - name: "Install conventional-changelog-cli"
       #   run: "npm install --global conventional-changelog-cli@2.x.x"
       - name: "Create Omnikey.zip"
-        run: "zip Omnikey.zip README.md CHANGELOG.md modmain.lua modmain.info scripts"
+        run: "zip -r Omnikey.zip README.md CHANGELOG.md modmain.lua modmain.info scripts/"
       - name: Release
         uses: softprops/action-gh-release@v1
         # if: startsWith(github.head_commit.message, 'chore(release):')
