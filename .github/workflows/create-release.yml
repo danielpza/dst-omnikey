@@ -12,12 +12,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Create Tag
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "<>"
-          echo git tag -a v${{ steps.semantic-version.outputs.version }} -m ""
-          echo git push origin --tags
       - name: "Create Omnikey.zip"
         run: "zip -r Omnikey.zip README.md CHANGELOG.md modmain.lua modmain.info scripts/"
       - name: "Get package.json version"
@@ -29,6 +23,12 @@ jobs:
         run: |
           npm install --global conventional-changelog-cli@2.x.x
           conventional-changelog -p conventionalcommits -o release-changelog
+      - name: Create Tag
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "<>"
+          echo git tag -a v${{ steps.get-version.outputs.version }} -m ""
+          echo git push origin --tags
       - name: Release
         uses: softprops/action-gh-release@v1
         # if: startsWith(github.head_commit.message, 'chore(release):')
