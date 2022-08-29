@@ -1,0 +1,42 @@
+name: Create Release
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  create-release:
+    if: startsWith(github.head_commit.message, 'chore(release):')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: "Create Omnikey.zip"
+        run: "zip -r Omnikey.zip README.md CHANGELOG.md modmain.lua modmain.info scripts/"
+      - name: "Get package.json version"
+        id: "get-version"
+        run: node -e "console.log(\"::set-output name=version::\" + require(\"./package.json\").version)"
+      - name: "Display version"
+        run: echo ${{ steps.get-version.outputs.version }}
+      - name: "Generate changelog for release"
+        run: |
+          npm install --global conventional-changelog-cli@2.x.x
+          conventional-changelog -p conventionalcommits -o release-changelog
+      - name: Create Tag
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "<>"
+          git tag -a v${{ steps.get-version.outputs.version }} -m ""
+          git push origin --tags
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release v${{ steps.get-version.outputs.version }}
+          tag_name: v${{ steps.get-version.outputs.version }}
+          files: Omnikey.zip
+          body_path: release-changelog
