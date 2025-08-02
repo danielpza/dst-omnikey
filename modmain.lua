@@ -1,6 +1,6 @@
 -- for debugging
-GLOBAL.CHEATS_ENABLED = true
-GLOBAL.require("debugkeys")
+-- GLOBAL.CHEATS_ENABLED = true
+-- GLOBAL.require("debugkeys")
 --
 
 ---@module 'scripts.omnikey.values'
