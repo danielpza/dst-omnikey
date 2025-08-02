@@ -3,9 +3,7 @@
 -- GLOBAL.require("debugkeys")
 --
 
----@module 'scripts.omnikey.values'
 local values = require("omnikey/values")
----@module 'scripts.omnikey.widgets'
 local widgets = require("omnikey/widgets")
 
 local DEFAULT_IMAGE = "cutgrass"
@@ -21,7 +19,6 @@ local EQUIP_KEYS = {
       comparator = CONFIG_USE_HAMBAT and values.weaponValuePrioritizeHambat or values.weaponValue,
       image = "spear",
    },
-
    {
       key = GetModConfigData("HELMET"),
       comparator = values.armorValue(GLOBAL.EQUIPSLOTS.HEAD),
