@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.15.0/.schema/devbox.schema.json",
+  "packages": [
+    "git-cliff@latest"
+  ],
+  "shell": {
+    "scripts": {
+      "link": [
+        "ln -s $(pwd) \"$HOME/.local/share/Steam/steamapps/common/Don't Starve Together/mods\""
+      ]
+    }
+  }
+}
