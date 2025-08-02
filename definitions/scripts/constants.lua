@@ -492,9 +492,9 @@ TILE_SCALE = 4
 
 ---@enum ds.equipslot
 EQUIPSLOTS = {
-	HANDS = "hands",
-	HEAD = "head",
-	BODY = "body",
+   HANDS = "hands",
+   HEAD = "head",
+   BODY = "body",
 }
 
 -- ITEMTAG = {

@@ -24,20 +24,20 @@ function SpawnPrefab(prefab) end
 
 ---@class GLOBAL
 GLOBAL = {
-	CHEATS_ENABLED = false,
-	ACTIONS = ACTIONS,
-	EQUIPSLOTS = EQUIPSLOTS,
+   CHEATS_ENABLED = false,
+   ACTIONS = ACTIONS,
+   EQUIPSLOTS = EQUIPSLOTS,
 
-	require = require,
+   require = require,
 
-	TheInput = TheInput,
-	ThePlayer = ThePlayer,
-	TheWorld = TheWorld,
+   TheInput = TheInput,
+   ThePlayer = ThePlayer,
+   TheWorld = TheWorld,
 
-	SpawnPrefab = SpawnPrefab,
+   SpawnPrefab = SpawnPrefab,
 
-	StartThread = StartThread,
-	KillThread = KillThread,
+   StartThread = StartThread,
+   KillThread = KillThread,
 
-	Sleep = Sleep,
+   Sleep = Sleep,
 }

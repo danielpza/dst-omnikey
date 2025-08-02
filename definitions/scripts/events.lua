@@ -3,9 +3,9 @@
 ---@class EventHandler
 ---@overload fun(self, event, fn, processor): EventHandler
 local EventHandler = {
-	-- event = {},
-	-- fn = {},
-	-- processor = {},
+   -- event = {},
+   -- fn = {},
+   -- processor = {},
 }
 
 function EventHandler:Remove() end
@@ -15,7 +15,7 @@ function EventHandler:Remove() end
 ---@class EventProcessor
 ---@overload fun(): EventProcessor
 EventProcessor = {
-	-- events = {},
+   -- events = {},
 }
 
 ---@param event string

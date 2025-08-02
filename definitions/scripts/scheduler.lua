@@ -19,13 +19,13 @@ function Periodic:Cleanup() end
 ---@class Scheduler
 ---@overload fun(isstatic): Scheduler
 local Scheduler = {
-	tasks = {},
-	running = {},
-	waitingfortick = {},
-	waking = {},
-	hibernating = {},
-	attime = {},
-	isstatic = nil,
+   tasks = {},
+   running = {},
+   waitingfortick = {},
+   waking = {},
+   hibernating = {},
+   attime = {},
+   isstatic = nil,
 }
 
 ---@param task Task

@@ -52,6 +52,54 @@
     "github:NixOS/nixpkgs/nixpkgs-unstable": {
       "last_modified": "2025-07-09T16:14:05Z",
       "resolved": "github:NixOS/nixpkgs/be9e214982e20b8310878ac2baa063a961c1bdf6?lastModified=1752077645&narHash=sha256-HM791ZQtXV93xtCY%2BZxG1REzhQenSQO020cu6rHtAPk%3D"
+    },
+    "stylua@latest": {
+      "last_modified": "2025-07-13T22:45:35Z",
+      "resolved": "github:NixOS/nixpkgs/a421ac6595024edcfbb1ef950a3712b89161c359#stylua",
+      "source": "devbox-search",
+      "version": "2.1.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/jcwwwrl0y8k090cmzsd5nxf0qdn6dyxx-stylua-2.1.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/jcwwwrl0y8k090cmzsd5nxf0qdn6dyxx-stylua-2.1.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/6ld3ppi3ch18idry0j96k92rm7ydb9wi-stylua-2.1.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/6ld3ppi3ch18idry0j96k92rm7ydb9wi-stylua-2.1.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/bz016gpqmnng16qpcxv2b61y4nvh1v4k-stylua-2.1.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/bz016gpqmnng16qpcxv2b61y4nvh1v4k-stylua-2.1.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/gkjyp5xb0zxl1wcval1aw125c9habjxk-stylua-2.1.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/gkjyp5xb0zxl1wcval1aw125c9habjxk-stylua-2.1.0"
+        }
+      }
     }
   }
 }

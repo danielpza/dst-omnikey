@@ -3,26 +3,26 @@
 ---@class Input
 ---@overload fun(): Input
 local Input = {
-	-- -- all keys, down and up, with key param
-	-- onkey = EventProcessor(),
-	-- -- specific key up, no parameters
-	-- onkeyup = EventProcessor(),
-	-- -- specific key down, no parameters
-	-- onkeydown = EventProcessor(),
-	-- onmousebutton = EventProcessor(),
+   -- -- all keys, down and up, with key param
+   -- onkey = EventProcessor(),
+   -- -- specific key up, no parameters
+   -- onkeyup = EventProcessor(),
+   -- -- specific key down, no parameters
+   -- onkeydown = EventProcessor(),
+   -- onmousebutton = EventProcessor(),
 
-	-- position = EventProcessor(),
-	-- oncontrol = EventProcessor(),
-	-- ontextinput = EventProcessor(),
-	-- ongesture = EventProcessor(),
+   -- position = EventProcessor(),
+   -- oncontrol = EventProcessor(),
+   -- ontextinput = EventProcessor(),
+   -- ongesture = EventProcessor(),
 
-	-- hoverinst = nil,
-	-- enabledebugtoggle = false,
+   -- hoverinst = nil,
+   -- enabledebugtoggle = false,
 
-	-- mouse_enabled = false,
+   -- mouse_enabled = false,
 
-	-- overridepos = nil,
-	-- controllerid_cached = nil,
+   -- overridepos = nil,
+   -- controllerid_cached = nil,
 }
 
 function Input:DisableAllControllers() end
