@@ -24,10 +24,9 @@ jobs:
           major_pattern: "!:"
           minor_pattern: "feat:"
           format: "${major}.${minor}.${patch}"
-      - name: Update modinfo.lua and package.json versions
+      - name: Update modinfo.lua versions
         run: |
           sed 's/version = ".*\..*\..*"/version = "${{ steps.semantic-version.outputs.version }}"/' modinfo.lua -i
-          sed 's/"version": ".*\..*\..*",/"version": "${{ steps.semantic-version.outputs.version }}",/' package.json -i
       - name: Update CHANGELOG.md
         run: "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s"
       - name: Create Pull Request

@@ -20,7 +20,7 @@ jobs:
         run: "zip -r Omnikey.zip README.md CHANGELOG.md modmain.lua modmain.info scripts/"
       - name: "Get package.json version"
         id: "get-version"
-        run: node -e "console.log(\"::set-output name=version::\" + require(\"./package.json\").version)"
+        run: echo ::set-output name=version::$(grep '\\([0-9]\\.\\?\\)\\{3\\}' modinfo.lua -o)
       - name: "Display version"
         run: echo ${{ steps.get-version.outputs.version }}
       - name: "Generate changelog for release"
