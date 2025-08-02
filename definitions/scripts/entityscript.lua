@@ -2,6 +2,7 @@
 
 ---@class ds.entity.components
 ---@field tool? ds.components.tool|nil
+---@field equippable? ds.components.equippable|nil
 
 ---@class ds.entity.replica
 ---@field inventory? ds.replicas.inventory|nil
