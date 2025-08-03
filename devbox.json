@@ -6,6 +6,7 @@
   ],
   "shell": {
     "scripts": {
+      "dist": "mkdir -p dist && cp -r *.lua scripts/ dist/",
       "format": "stylua .",
       "link": [
         "ln -s $(pwd) \"$HOME/.local/share/Steam/steamapps/common/Don't Starve Together/mods\""
