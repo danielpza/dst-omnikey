@@ -1,10 +1,12 @@
 -- for debugging
--- GLOBAL.CHEATS_ENABLED = true
+GLOBAL.CHEATS_ENABLED = true
 -- GLOBAL.require("debugkeys")
 --
 
+local Widget = require("widgets/widget")
+
 local values = require("omnikey/values")
-local widgets = require("omnikey/widgets")
+local OmnikeyWidgets = require("omnikey/widgets")
 
 local DEFAULT_IMAGE = "cutgrass"
 
@@ -124,8 +126,11 @@ local function EquipUnequipItem(comparator)
    end
 end
 
+---@param self ds.widgets.inventorybar
 AddClassPostConstruct("widgets/inventorybar", function(self)
    local inventorybar = self
+
+   local root = Widget("omnikkey_root")
 
    for index, action in ipairs(EQUIP_KEYS) do
       local function doit()
@@ -137,12 +142,39 @@ AddClassPostConstruct("widgets/inventorybar", function(self)
       end
 
       if CONFIG_SHOW_EQUIP then
-         inventorybar:AddChild(widgets.InventoryButton({
-            image = action.image or DEFAULT_IMAGE,
-            position = index,
-            text = CONFIG_SHOW_KEYBINDING and string.upper(string.char(action.key)) or nil,
-            onClick = doit,
-         }))
+         root:AddChild(
+            OmnikeyWidgets.InventoryButton(
+               action.image or DEFAULT_IMAGE,
+               CONFIG_SHOW_KEYBINDING and string.upper(string.char(action.key)) or nil,
+               doit,
+               index - 1
+            )
+         )
+      end
+   end
+
+   if CONFIG_SHOW_EQUIP then
+      local X_OFFSET = -750
+      local Y_OFFSET = 160
+      local INTEGRATED_BACKPACK_OFFSET = 74
+
+      root:SetPosition(X_OFFSET, Y_OFFSET, 0)
+      root:MoveToBack()
+      inventorybar:AddChild(root)
+
+      local Refresh = inventorybar.Refresh
+      inventorybar.Refresh = function(self)
+         -- monkey patch the Refresh function to update the position when a backpack is added in integrated mode
+         Refresh(self)
+
+         -- code taken directly from dst scripts
+         local inventory = self.owner.replica.inventory
+         local overflow = inventory and inventory:GetOverflowContainer()
+         overflow = (overflow ~= nil and overflow:IsOpenedBy(self.owner)) and overflow or nil
+         local do_integrated_backpack = overflow ~= nil and self.integrated_backpack
+         ---
+
+         root:SetPosition(X_OFFSET, Y_OFFSET + (do_integrated_backpack and INTEGRATED_BACKPACK_OFFSET or 0), 0)
       end
    end
 end)
