@@ -1,5 +1,5 @@
 -- for debugging
-GLOBAL.CHEATS_ENABLED = true
+-- GLOBAL.CHEATS_ENABLED = true
 -- GLOBAL.require("debugkeys")
 --
 
