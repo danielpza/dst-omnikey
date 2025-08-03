@@ -15,10 +15,15 @@ local CONFIG_SHOW_KEYBINDING = GetModConfigData("SHOW_KEYBINDING")
 local CONFIG_USE_HAMBAT = GetModConfigData("USE_HAMBAT")
 local CONFIG_SHOW_EQUIP = GetModConfigData("SHOW_EQUIP")
 
+local weaponComparator = CONFIG_USE_HAMBAT and values.weaponValuePrioritizeHambat or values.weaponValue
+
 local EQUIP_KEYS = {
    {
       key = GetModConfigData("WEAPON"),
-      comparator = CONFIG_USE_HAMBAT and values.weaponValuePrioritizeHambat or values.weaponValue,
+      comparator = function(item)
+         return GLOBAL.ThePlayer:HasTag("slingshot_sharpshooter") and item:HasTag("slingshot") and 1000
+            or weaponComparator(item)
+      end,
       image = "spear",
    },
    {
