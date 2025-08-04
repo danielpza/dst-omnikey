@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.9.2 - 2025-08-04
+### <!-- 1 -->🐛 Bug Fixes
+- Bump slingshot priority
+
+### <!-- 7 -->⚙️ Miscellaneous Tasks
+- Update bump.sh to automatically create release
+
 ## 0.9.1 - 2025-08-04
 ### <!-- 0 -->🚀 Features
 - Add slingshot support
@@ -14,6 +21,7 @@ All notable changes to this project will be documented in this file.
 - Update dist script
 - Add bump.sh
 - Use git cliff minimal configuration
+- 0.9.1
 
 ## 0.9.0 - 2025-08-03
 ### <!-- 0 -->🚀 Features
