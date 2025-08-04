@@ -17,3 +17,11 @@ body = """
     {% endfor %}\
 {% endfor %}\n
 """
+
+[git]
+conventional_commits = true
+filter_commits = true
+commit_parsers = [
+  { message = "^feat", group = "Features" },
+  { message = "^fix", group = "Bug Fixes" },
+]
