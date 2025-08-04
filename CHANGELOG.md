@@ -2,208 +2,188 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## 0.9.1 - 2025-08-04
+### <!-- 0 -->🚀 Features
+- Add slingshot support
 
-## [Unreleased]
+### <!-- 3 -->📚 Documentation
+- Update changelog with git cliff
 
-### Added
-- Add slingshot support by @danielpza
-- Add screenshot by @danielpza
+### <!-- 7 -->⚙️ Miscellaneous Tasks
+- Add screenshot
+- Update dist script
+- Add bump.sh
+- Use git cliff minimal configuration
 
-### Changed
-- Update dist script by @danielpza
+## 0.9.0 - 2025-08-03
+### <!-- 0 -->🚀 Features
+- Convert from typescript to lua (#10)
 
-## [0.9.0] - 2025-08-03
+### <!-- 1 -->🐛 Bug Fixes
+- Integrated backpack swallowing the ui
 
-### Added
-- Add dist script by @danielpza
-- Add luarc config by @danielpza
-- Add equippable types by @danielpza
-- Add devbox.json by @danielpza
-- Add github actions by @danielpza in [#11](https://github.com/danielpza/dst-omnikey/pull/11)
-- Add badges by @danielpza
+### <!-- 3 -->📚 Documentation
+- Add badges
+- Adjust wording
 
-### Changed
-- 0.9.0 by @danielpza
-- Disable cheats again by @danielpza
-- Adjust requireSeparator = / by @danielpza
-- Update definitions by @danielpza
-- Disable cheats by @danielpza
-- Use git submodules for definitions by @danielpza
-- Format with stylua by @danielpza
-- Update editorconfig by @danielpza
-- Rollback version to latest (0.8.4) by @danielpza
-- Adjust wording by @danielpza
-- Convert from typescript to lua by @danielpza in [#10](https://github.com/danielpza/dst-omnikey/pull/10)
+### <!-- 7 -->⚙️ Miscellaneous Tasks
+- Rollback version to latest (0.8.4)
+- Add github actions (#11)
+- Fix startsWith commit message variable
+- Add devbox.json
+- Update editorconfig
+- Format with stylua
+- Remove package.json
+- Add equippable types
+- Use git submodules for definitions
+- Disable cheats
+- Add luarc config
+- Update definitions
+- Adjust requireSeparator = /
+- Disable cheats again
+- Add dist script
+- 0.9.0
 
-### Fixed
-- Integrated backpack swallowing the ui by @danielpza
-- Fix startsWith commit message variable by @danielpza
+## 0.8.4 - 2022-08-10
+### <!-- 1 -->🐛 Bug Fixes
+- Update types
+- Update types
 
-### Removed
-- Remove package.json by @danielpza
+### <!-- 10 -->💼 Other
+- Cleanup configuration code and upgraded packages
 
-## [0.8.4] - 2022-08-10
+### <!-- 7 -->⚙️ Miscellaneous Tasks
+- Fix npm run pack script
+- 0.8.4
 
-### Changed
-- 0.8.4 by @danielpza
-- Cleanup configuration code and upgraded packages by @danielpza
+## 0.8.2 - 2020-07-12
+### <!-- 1 -->🐛 Bug Fixes
+- Reverse light order (use torches first)
+- Issue with some items crashed the mod
 
-### Fixed
-- Update types by @danielpza
-- Update types by @danielpza
-- Fix npm run pack script by @danielpza
+### <!-- 3 -->📚 Documentation
+- Add t light key
 
-## [0.8.2] - 2020-07-12
+### <!-- 7 -->⚙️ Miscellaneous Tasks
+- Update types
+- Move buttons to /widget
+- 0.8.2
 
-### Added
-- Add t light key by @danielpza
+## 0.8.1 - 2020-06-30
+### <!-- 7 -->⚙️ Miscellaneous Tasks
+- Clean up and package-lock.json
+- Update ds-types version
+- Add release workflow
+- 0.8.1
 
-### Changed
-- 0.8.2 by @danielpza
-- Move buttons to /widget by @danielpza
-- Update types by @danielpza
+## 0.8.0 - 2020-05-06
+### <!-- 0 -->🚀 Features
+- Add option to prioritize hambat when choosing weapon
+- Add button icons for equipments too
 
-### Fixed
-- Issue with some items crashed the mod by @danielpza
-- Reverse light order (use torches first) by @danielpza
+### <!-- 3 -->📚 Documentation
+- Include readme in description
 
-## [0.8.1] - 2020-06-30
+### <!-- 7 -->⚙️ Miscellaneous Tasks
+- Don't put readme in description
+- Reoder options
+- Add keybindings options
+- Some refactoring
+- 0.8.0
 
-### Added
-- Add release workflow by @danielpza
+## 0.7.0 - 2020-05-02
+### <!-- 0 -->🚀 Features
+- Add images
+- Disable fast mode by default
 
-### Changed
-- 0.8.1 by @danielpza
-- Update ds-types version by @danielpza
-- Clean up and package-lock.json by @danielpza
+### <!-- 10 -->💼 Other
+- Add scripts helpers
+- More refactoring
 
-## [0.8.0] - 2020-05-06
+### <!-- 3 -->📚 Documentation
+- Update dev script
 
-### Added
-- Add button icons for equipments too by @danielpza
-- Add option to prioritize hambat when choosing weapon by @danielpza
-- Add keybindings options by @danielpza
-- Add preview.png by @danielpza
+### <!-- 7 -->⚙️ Miscellaneous Tasks
+- 0.7.0
 
-### Changed
-- 0.8.0 by @danielpza
-- Some refactoring by @danielpza
-- Reoder options by @danielpza
-- Don't put readme in description by @danielpza
-- Update modinfo by @danielpza
-- Include readme in description by @danielpza
+## 0.6.0 - 2019-12-17
+### <!-- 0 -->🚀 Features
+- Added choping, mining, pick up, harvest
 
-## [0.7.0] - 2020-05-02
+### <!-- 7 -->⚙️ Miscellaneous Tasks
+- Add dev script
+- Minor build refactoring
+- 0.6.0
 
-### Added
-- Add images by @danielpza
-- Add scripts helpers by @danielpza
+## 0.5.0 - 2019-12-04
+### <!-- 0 -->🚀 Features
+- Generic cane
+- Add hammer key
+- Equip insulator cloths
+- Improve clothing
+- Umbrella
 
-### Changed
-- 0.7.0 by @danielpza
-- Disable fast mode by default by @danielpza
-- Improve build step by @danielpza
-- Update default keybinding chop i -> j by @danielpza
-- More refactoring by @danielpza
-- Update dev script by @danielpza
+### <!-- 1 -->🐛 Bug Fixes
+- Eater
+- Healer
 
-### Removed
-- Remove unused by @danielpza
+### <!-- 10 -->💼 Other
+- Fix types
 
-## [0.6.0] - 2019-12-17
+### <!-- 3 -->📚 Documentation
+- Update readme
 
-### Added
-- Added choping, mining, pick up, harvest by @danielpza
-- Add dev script by @danielpza
+### <!-- 7 -->⚙️ Miscellaneous Tasks
+- Add github link to mod description
+- Metadata
+- Typescript issues
+- 0.5.0
 
-### Changed
-- 0.6.0 by @danielpza
-- Minor build refactoring by @danielpza
+## 0.4.0 - 2019-08-01
+### <!-- 0 -->🚀 Features
+- Sort elements by percent too
+- Add scythes support
 
-## [0.5.0] - 2019-12-04
+### <!-- 1 -->🐛 Bug Fixes
+- Armor not working
 
-### Added
-- Add hammer key by @danielpza
-- Add github link to mod description by @danielpza
+### <!-- 3 -->📚 Documentation
+- Improve readme
+- Fix formatting
 
-### Changed
-- 0.5.0 by @danielpza
-- Update readme by @danielpza
-- Umbrella by @danielpza
-- Improve clothing by @danielpza
-- Equip insulator cloths by @danielpza
-- Typescript issues by @danielpza
-- Refact by @danielpza
-- Metadata by @danielpza
-- Generic cane by @danielpza
+### <!-- 7 -->⚙️ Miscellaneous Tasks
+- Fix formatting
+- 0.4.0
 
-### Fixed
-- Healer by @danielpza
-- Eater by @danielpza
-- Fix types by @danielpza
-- Fix hammer by @danielpza
+## 0.3.0 - 2019-07-28
+### <!-- 0 -->🚀 Features
+- When healing also eat food that heals
 
-## [0.4.0] - 2019-08-01
+### <!-- 1 -->🐛 Bug Fixes
+- Creating items on the client
+- Eating food with no hunger value
 
-### Added
-- Add scythes support by @danielpza
+### <!-- 7 -->⚙️ Miscellaneous Tasks
+- 0.3.0
 
-### Changed
-- 0.4.0 by @danielpza
-- Sort elements by percent too by @danielpza
-- Improve readme by @danielpza
+## 0.2.0 - 2019-07-28
+### <!-- 0 -->🚀 Features
+- Support backpack
 
-### Fixed
-- Armor not working by @danielpza
-- Fix formatting by @danielpza
-- Fix formatting by @danielpza
+### <!-- 3 -->📚 Documentation
+- Add readme
 
-## [0.3.0] - 2019-07-28
+### <!-- 7 -->⚙️ Miscellaneous Tasks
+- Add pack script
+- 0.2.0
 
-### Changed
-- 0.3.0 by @danielpza
-- When healing also eat food that heals by @danielpza
+## 0.1.1 - 2019-07-28
+### <!-- 1 -->🐛 Bug Fixes
+- Not working on multiplayer
+- Eating grass
 
-### Fixed
-- Eating food with no hunger value by @danielpza
-- Creating items on the client by @danielpza
-
-## [0.2.0] - 2019-07-28
-
-### Added
-- Support backpack by @danielpza
-- Add pack script by @danielpza
-- Add readme by @danielpza
-
-### Changed
-- 0.2.0 by @danielpza
-
-## [0.1.1] - 2019-07-28
-
-### Changed
-- 0.1.1 by @danielpza
-- Use github actions for release by @danielpza
-- Initial commit by @danielpza
-
-### Fixed
-- Eating grass by @danielpza
-- Not working on multiplayer by @danielpza
-
-## New Contributors
-* @danielpza made their first contribution
-[unreleased]: https://github.com/danielpza/dst-omnikey/compare/v0.9.0..HEAD
-[0.9.0]: https://github.com/danielpza/dst-omnikey/compare/v0.8.4..v0.9.0
-[0.8.4]: https://github.com/danielpza/dst-omnikey/compare/v0.8.2..v0.8.4
-[0.8.2]: https://github.com/danielpza/dst-omnikey/compare/v0.8.1..v0.8.2
-[0.8.1]: https://github.com/danielpza/dst-omnikey/compare/v0.8.0..v0.8.1
-[0.8.0]: https://github.com/danielpza/dst-omnikey/compare/v0.7.0..v0.8.0
-[0.7.0]: https://github.com/danielpza/dst-omnikey/compare/v0.6.0..v0.7.0
-[0.6.0]: https://github.com/danielpza/dst-omnikey/compare/v0.5.0..v0.6.0
-[0.5.0]: https://github.com/danielpza/dst-omnikey/compare/v0.4.0..v0.5.0
-[0.4.0]: https://github.com/danielpza/dst-omnikey/compare/v0.3.0..v0.4.0
-[0.3.0]: https://github.com/danielpza/dst-omnikey/compare/v0.2.0..v0.3.0
-[0.2.0]: https://github.com/danielpza/dst-omnikey/compare/v0.1.1..v0.2.0
+### <!-- 7 -->⚙️ Miscellaneous Tasks
+- Use github actions for release
+- 0.1.1
 
 <!-- generated by git-cliff -->
