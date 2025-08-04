@@ -9,3 +9,7 @@ git add modinfo.lua CHANGELOG.md
 
 git commit -m "chore(release): ${next_version:1}"
 git tag ${next_version}
+
+git push --follow-tags
+
+gh release edit $next_version --notes="$(git cliff --latest)"
