@@ -21,7 +21,7 @@ local EQUIP_KEYS = {
    {
       key = GetModConfigData("WEAPON"),
       comparator = function(item)
-         return GLOBAL.ThePlayer:HasTag("slingshot_sharpshooter") and item:HasTag("slingshot") and 1000
+         return GLOBAL.ThePlayer:HasTag("slingshot_sharpshooter") and item:HasTag("slingshot") and 1000000
             or weaponComparator(item)
       end,
       image = "spear",

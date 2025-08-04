@@ -1,8 +1,18 @@
 local exports = {}
 
+local USAGE_MULT = 10
+local DAMAGE_MULT = 100
+local ARMOR_MULT = 100000
+local CONSUMPTION_MULT = 1000
+
+exports.USAGE_MULT = USAGE_MULT
+exports.DAMAGE_MULT = DAMAGE_MULT
+exports.ARMOR_MULT = ARMOR_MULT
+exports.CONSUMPTION_MULT = CONSUMPTION_MULT
+
 local function valueByUsage(item)
    return item.components.finiteuses ~= nil
-         and item.components.finiteuses.total * 10 - item.components.finiteuses.current
+         and item.components.finiteuses.total * USAGE_MULT - item.components.finiteuses.current
       or 0
 end
 
@@ -25,7 +35,7 @@ local function canBeEquipped(item, slot)
 end
 
 local function valueByDamage(item)
-   return item.components.weapon and item.components.weapon.damage * 100 + valueByUsage(item) or 0
+   return item.components.weapon and item.components.weapon.damage * DAMAGE_MULT + valueByUsage(item) or 0
 end
 
 local function valueByConsumption(item, action)
@@ -33,13 +43,14 @@ local function valueByConsumption(item, action)
 end
 
 local function valueByArmor(item)
-   return item.components.armor and item.components.armor.absorb_percent * 100000 - item.components.armor.condition or 0
+   return item.components.armor and item.components.armor.absorb_percent * ARMOR_MULT - item.components.armor.condition
+      or 0
 end
 
 local function valueByToolAction(item, action)
    return item.components.tool
          and item.components.tool.actions[action]
-         and valueByConsumption(item, action) * 1000 + valueByUsage(item)
+         and valueByConsumption(item, action) * CONSUMPTION_MULT + valueByUsage(item)
       or 0
 end
 
